@@ -77,6 +77,8 @@ import {
     saveSprintDataToAPI 
 } from './sprints.js';
 
+import './gestao-aulas.js';
+
 // ============================================================================
 // EXPONDO FUNÇÕES PARA O WINDOW (Necessário para o onclick do HTML)
 // ============================================================================

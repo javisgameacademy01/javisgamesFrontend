@@ -59,6 +59,10 @@ export async function showTab(tabId) {
         carregarDashboard();    
     }
 
+    if (tabId === 'gestao-aulas' && window.carregarAulasCurriculo) {
+        window.carregarAulasCurriculo();
+    }
+
     // Módulo de Extensão: Sprints Pedagógicas
     if (tabId === 'coordenacao-sprints') {
         if (window.initSprintDashboard) window.initSprintDashboard();
