@@ -70,6 +70,9 @@
                 <a href="#" onclick="showTab('novo-usuario')" id="menu-novo-usuario" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400">
                     <i class="fas fa-key w-5 mr-3"></i> Criar Login do Aluno
                 </a>
+                <a href="#" onclick="showTab('gestao-aulas')" id="menu-gestao-aulas" class="sidebar-item flex items-center px-4 py-2 rounded-md text-gray-400 text-sm">
+                    <i class="fas fa-play-circle w-5 mr-3 text-[#00FFFF]"></i> Aulas & Canva
+                </a>
                 <a href="#" onclick="showTab('frequencia')" id="menu-frequencia" class="sidebar-item flex items-center px-4 py-2 rounded-md text-gray-400 text-sm">
                     <i class="fas fa-list-check w-5 mr-3"></i> Frequências
                 </a>
@@ -486,6 +489,43 @@
                                 </tr>
                             </thead>
                             <tbody id="listaTurmasBody" class="text-xs divide-y divide-[#1a1a1a] text-gray-400">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gestao-aulas" class="tab-content hidden p-4 md:p-8 fade-in space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-white tracking-tight">
+                            Conteúdo das <span class="text-[#00FFFF]">Aulas</span>
+                        </h1>
+                        <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Gestão de links do Canva e materiais didáticos</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#111] rounded-2xl overflow-hidden border border-[#222] shadow-2xl">
+                    <div class="p-4 bg-[#161616] border-b border-[#222] flex justify-between items-center">
+                        <h3 class="text-white font-bold text-sm uppercase tracking-widest">Currículo Base</h3>
+                        <div class="relative w-64 md:w-80">
+                            <i class="fas fa-search absolute left-3 top-2.5 text-gray-600 text-xs"></i>
+                            <input type="text" id="input-busca-aulas" oninput="filtrarTabelaGeneric('input-busca-aulas', 'aulasTableBody')" placeholder="Pesquisar aula ou curso..." 
+                                class="w-full bg-[#0f0f0f] border border-[#333] rounded-full py-2 pl-9 pr-4 text-xs text-white outline-none focus:border-[#00FFFF] transition">
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left">
+                            <thead class="bg-[#0c0c0c] text-gray-500 text-[10px] uppercase font-black">
+                                <tr>
+                                    <th class="p-4">ID</th>
+                                    <th class="p-4">Curso</th>
+                                    <th class="p-4">Título da Aula</th>
+                                    <th class="p-4">Link (Canva)</th>
+                                    <th class="p-4 text-right">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="aulasTableBody" class="text-xs divide-y divide-[#1a1a1a] text-gray-400">
                                 </tbody>
                         </table>
                     </div>
