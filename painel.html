@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Contratos - Javis Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6; padding: 20px; color: #374151; }
+        .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        h2 { color: #111827; margin: 0; font-size: 24px; }
+        
+        .btn-export { background-color: #10b981; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: background 0.2s; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2); }
+        .btn-export:hover { background-color: #059669; }
+
+        /* CONTADORES VISUAIS REAJUSTADOS */
+        /* Nova cor para Matriculados (Verde Escuro) */
+        .stat-card.matriculados { border-left: 4px solid #047857; }
+        .stat-card.matriculados .stat-icon { color: #047857; background: #ecfdf5; }
+
+        /* Botão de Matrícula */
+        .btn-matricular { background-color: #3b82f6; color: white; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; transition: background 0.2s; border: none; cursor: pointer; }
+        .btn-matricular:hover { background-color: #2563eb; }
+
+        /* Badge de Matriculado */
+        .badge-matriculado { background-color: #059669; color: white; padding: 3px 6px; border-radius: 4px; font-size: 9px; font-weight: 900; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: #fff; padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 12px; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        .stat-card.novos { border-left: 4px solid #ef4444; } 
+        .stat-card.novos .stat-icon { color: #ef4444; background: #fef2f2; }
+        .stat-card.total { border-left: 4px solid #3b82f6; }
+        .stat-card.total .stat-icon { color: #3b82f6; background: #eff6ff; }
+        .stat-card.gamedev { border-left: 4px solid #10b981; }
+        .stat-card.gamedev .stat-icon { color: #10b981; background: #ecfdf5; }
+        .stat-card.performance { border-left: 4px solid #8b5cf6; }
+        .stat-card.performance .stat-icon { color: #8b5cf6; background: #f5f3ff; }
+
+        .stat-icon { font-size: 20px; min-width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; }
+        .stat-info h3 { margin: 0; font-size: 10px; text-transform: uppercase; color: #6b7280; font-weight: 700; letter-spacing: 0.05em; }
+        .stat-info p { margin: 5px 0 0 0; font-size: 24px; font-weight: 900; color: #111827; line-height: 1; }
+
+        /* ÁREA DE FILTROS E PESQUISA */
+        .filters-container { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .search-box { flex: 2; min-width: 250px; padding: 12px 15px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
+        .search-box:focus, .filter-select:focus { border-color: #3b82f6; outline: 2px solid #3b82f6; }
+        .filter-select { flex: 1; min-width: 150px; padding: 12px 15px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; background-color: #fff; cursor: pointer; outline: none; color: #374151; }
+
+        /* Tabela */
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #f3f4f6; }
+        th { background-color: #f9fafb; color: #6b7280; font-weight: 600; text-transform: uppercase; font-size: 12px; letter-spacing: 0.05em; }
+        tr:hover { background-color: #f9fafb; }
+        
+        .btn-download { background-color: #059669; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; transition: background 0.2s; }        
+        .btn-download:hover { background-color: #047857; }
+        
+        .btn-visto { background-color: #f3f4f6; color: #4b5563; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; transition: background 0.2s; border: 1px solid #d1d5db; cursor: pointer; }
+        .btn-visto:hover { background-color: #e5e7eb; color: #111827; }
+        .badge-novo { background-color: #ef4444; color: white; padding: 3px 6px; border-radius: 4px; font-size: 9px; font-weight: 900; text-transform: uppercase; margin-left: 8px; vertical-align: middle; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        .status-text { font-size: 13px; color: #6b7280; margin-top: 4px; display: block; }
+        .aluno-nome { color: #111827; font-weight: 600; display: inline-block; }
+        .link-whatsapp { color: #25D366; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 5px; }
+        .link-whatsapp:hover { text-decoration: underline; color: #128C7E; }
+        .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h2>Dashboard do Projeto</h2>
+        <button onclick="exportarParaExcel()" class="btn-export">
+            <i class="fas fa-file-excel"></i> Exportar para Excel
+        </button>
+    </header>
+
+    <div class="stats-grid">
+        <div class="stat-card novos"><div class="stat-icon"><i class="fas fa-bell"></i></div><div class="stat-info"><h3>Novos (Pendentes)</h3><p id="countNovos">0</p></div></div>
+        <div class="stat-card total"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><h3>Total Inscritos</h3><p id="countTotal">0</p></div></div>
+        <div class="stat-card gamedev"><div class="stat-icon"><i class="fas fa-gamepad"></i></div><div class="stat-info"><h3>Game Dev</h3><p id="countGameDev">0</p></div></div>
+        <div class="stat-card performance"><div class="stat-icon"><i class="fas fa-headset"></i></div><div class="stat-info"><h3>Performance Gamer</h3><p id="countPerformance">0</p></div></div>
+        
+        <div class="stat-card matriculados">
+            <div class="stat-icon"><i class="fas fa-user-check"></i></div>
+            <div class="stat-info"><h3>Matriculados</h3><p id="countMatriculados">0</p></div>
+        </div>
+    </div>
+    
+    <div class="filters-container">
+        <input type="text" id="searchInput" class="search-box" placeholder="Pesquisar por nome, CPF ou Telefone...">
+        <select id="filterCurso" class="filter-select">
+            <option value="">Todos os Cursos</option>
+            <option value="GAME DEV">Game Dev</option>
+            <option value="PERFORMANCE GAMER">Performance Gamer</option>
+        </select>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Aluno / CPF</th>
+                    <th>Curso</th> 
+                    <th>Contato</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaCorpo">
+                <tr><td colspan="5" style="text-align: center; padding: 40px;">A carregar registos...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const SUPABASE_URL = 'https://uzlntmmgxkyuqkmvfhxm.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_yz5ETUKuGrqwKb7jD8AH-A_wT9q7nE8'; 
+    let todosOsTermos = []; 
+
+    function formatarCPF(cpf) {
+        if (!cpf) return "N/A";
+        const limpo = cpf.replace(/\D/g, "");
+        if (limpo.length !== 11) return cpf;
+        return limpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    }
+
+    function gerarLinkWhatsApp(tel) {
+        if (!tel) return '<span class="status-text">Sem contacto</span>';
+        const limpo = tel.replace(/\D/g, ""); 
+        if (limpo.length < 10) return `<span class="status-text">${tel}</span>`; 
+        let formatado = tel;
+        if (limpo.length === 11) formatado = `(${limpo.substring(0,2)}) ${limpo.substring(2,7)}-${limpo.substring(7)}`;
+        else if (limpo.length === 10) formatado = `(${limpo.substring(0,2)}) ${limpo.substring(2,6)}-${limpo.substring(6)}`;
+        let numeroLink = limpo.startsWith("55") ? limpo : "55" + limpo;
+        return `<a href="https://wa.me/${numeroLink}" target="_blank" class="link-whatsapp">🟢 ${formatado}</a>`;
+    }
+
+    async function marcarComoVisualizado(id) {
+        try {
+            const termoIndex = todosOsTermos.findIndex(t => t.id === id);
+            if (termoIndex !== -1) {
+                todosOsTermos[termoIndex].visualizado = true;
+                aplicarFiltros(); 
+            }
+
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/tb_geracao_termos?id=eq.${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({ visualizado: true })
+            });
+
+            if (!response.ok) throw new Error('Erro ao salvar no banco.');
+
+        } catch (error) {
+            console.error(error);
+            alert("Não foi possível marcar como visto. Verifique a conexão.");
+            const termoIndex = todosOsTermos.findIndex(t => t.id === id);
+            if (termoIndex !== -1) {
+                todosOsTermos[termoIndex].visualizado = false;
+                aplicarFiltros();
+            }
+        }
+    }
+
+    function atualizarContadores(dados) {
+        let total = dados.length;
+        let countNovos = 0, countGD = 0, countPG = 0, countMatriculados = 0; // Adicionada a variável aqui
+
+        dados.forEach(termo => {
+            if (!termo.visualizado) countNovos++; 
+            if (termo.matriculado) countMatriculados++; // Soma se estiver matriculado
+
+            const curso = (termo.curso || "").toUpperCase();
+            if (curso.includes("GAME DEV")) countGD++;
+            if (curso.includes("PERFORMANCE")) countPG++;
+        });
+
+        document.getElementById('countNovos').innerText = countNovos;
+        document.getElementById('countTotal').innerText = total;
+        document.getElementById('countGameDev').innerText = countGD;
+        document.getElementById('countPerformance').innerText = countPG;
+        document.getElementById('countMatriculados').innerText = countMatriculados; // Atualiza o HTML
+    }
+
+    async function carregarDados() {
+        const tbody = document.getElementById('tabelaCorpo');
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/tb_geracao_termos?select=*&order=created_at.desc`, {
+                headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+            });
+            if (!response.ok) throw new Error('Falha na resposta do servidor');
+            
+            todosOsTermos = await response.json();
+            aplicarFiltros(); 
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="5"><div class="error-msg">Erro ao carregar dados.<br><button class="btn-retry" onclick="carregarDados()">Tentar Novamente</button></div></td></tr>`;
+        }
+    }
+
+    function renderizarTabela(dados) {
+        const tbody = document.getElementById('tabelaCorpo');
+        tbody.innerHTML = '';
+        
+        if(dados.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px;">Nenhum contrato encontrado.</td></tr>';
+            return;
+        }
+
+        dados.forEach(termo => {
+            const dataObj = new Date(termo.created_at);
+            const dataFormatada = dataObj.toLocaleDateString('pt-BR');
+            const tr = document.createElement('tr');
+            
+            // Lógica de Status
+            const isNovo = termo.visualizado !== true; 
+            const isMatriculado = termo.matriculado === true;
+
+            // Montagem dos Componentes
+            const badgeNovo = isNovo ? `<span class="badge-novo">Novo</span>` : '';
+            const badgeMatriculado = isMatriculado ? `<span class="badge-matriculado">Matriculado</span>` : '';
+            
+            const btnVistoHTML = isNovo ? `<button onclick="marcarComoVisualizado(${termo.id})" class="btn-visto"><i class="fas fa-check-double"></i> Visto</button>` : '';
+            
+            const btnPdfHTML = termo.url_pdf ? `<a href="${termo.url_pdf}" target="_blank" class="btn-download"><i class="fas fa-download"></i> Baixar</a>` : `<span class="status-text">PDF Indisponível</span>`;
+
+            // NOVO: Botão de Matrícula
+            const btnMatriculaHTML = `<button onclick="alternarMatricula(${termo.id}, ${isMatriculado})" class="btn-matricular">
+                <i class="fas ${isMatriculado ? 'fa-user-minus' : 'fa-user-plus'}"></i> ${isMatriculado ? 'Remover' : 'Matricular'}
+            </button>`;
+
+            tr.innerHTML = `
+                <td><span class="status-text">${dataFormatada}</span></td>
+                <td>
+                    <div style="display:flex; align-items:center; gap:5px;">
+                        <span class="aluno-nome">${termo.aluno_nome || 'Sem Nome'}</span>
+                        ${badgeNovo}
+                        ${badgeMatriculado}
+                    </div>
+                    <span class="status-text">CPF: ${formatarCPF(termo.aluno_cpf)}</span>
+                </td>
+                <td>${termo.curso || 'N/A'}</td>
+                <td>${gerarLinkWhatsApp(termo.whatsapp)}</td>
+                <td>
+                    <div class="action-buttons">
+                        ${btnPdfHTML}
+                        ${btnMatriculaHTML}
+                        ${btnVistoHTML}
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function aplicarFiltros() {
+        const termoBusca = document.getElementById('searchInput').value.toLowerCase().trim();
+        const filtroCurso = document.getElementById('filterCurso').value.toUpperCase();
+
+        const dadosFiltrados = todosOsTermos.filter(termo => {
+            const nome = (termo.aluno_nome || "").toLowerCase();
+            const cpf = (termo.aluno_cpf || "").toLowerCase();
+            const tel = (termo.whatsapp || "").toLowerCase(); 
+            const curso = (termo.curso || "").toUpperCase();
+
+            const passaPesquisa = nome.includes(termoBusca) || cpf.includes(termoBusca) || tel.includes(termoBusca);
+            const passaCurso = filtroCurso === "" || curso.includes(filtroCurso);
+
+            return passaPesquisa && passaCurso;
+        });
+        
+        renderizarTabela(dadosFiltrados);
+        atualizarContadores(dadosFiltrados);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', aplicarFiltros);
+    document.getElementById('filterCurso').addEventListener('change', aplicarFiltros);
+
+    function exportarParaExcel() {
+        if (todosOsTermos.length === 0) { alert("Não há dados para exportar no momento."); return; }
+        const cabecalhos = ["Status", "Data de Inscrição", "Curso", "Nome do Aluno", "CPF do Aluno", "WhatsApp", "Nome da Escola", "Turno Escolar (Origem)", "Nome do Responsável", "CPF do Responsável", "RG do Responsável", "Órgão Expeditor"];
+        let csvContent = "\uFEFF" + cabecalhos.join(";") + "\n"; 
+        todosOsTermos.forEach(t => {
+            const statusVisto = t.visualizado ? "Visualizado" : "NOVO PENDENTE";
+            const dataFmt = t.created_at ? new Date(t.created_at).toLocaleDateString('pt-BR') : "";
+            const linha = [statusVisto, dataFmt, t.curso || "", t.aluno_nome || "", t.aluno_cpf || "", t.whatsapp || "", t.escola_nome || "", t.escola_turno || "", t.responsavel_nome || "", t.responsavel_cpf || "", t.responsavel_rg || "", t.responsavel_rg_orgao || ""].map(valor => `"${String(valor).replace(/"/g, '""')}"`);
+            csvContent += linha.join(";") + "\n";
+        });
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `Relatorio_Projeto_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    carregarDados();
+
+    async function alternarMatricula(id, statusAtual) {
+        try {
+            const novoStatus = !statusAtual;
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/tb_geracao_termos?id=eq.${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({ matriculado: novoStatus })
+            });
+
+            if (!response.ok) throw new Error('Erro ao salvar matrícula.');
+
+            // Atualiza a lista local e a interface
+            const index = todosOsTermos.findIndex(t => t.id === id);
+            if (index !== -1) todosOsTermos[index].matriculado = novoStatus;
+            aplicarFiltros();
+
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao atualizar status de matrícula.");
+        }
+    }
+</script>
+</body>
+</html>

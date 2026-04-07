@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core/locales/pt-br.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/imask"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="https://cdn.tiny.cloud/1/d7b2b786b254ig6qblufwnifovbaziiwmevlpi9dknzz6ip4/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style-funcionario.css">
 </head>
@@ -30,31 +31,70 @@
         </div>
 
         <nav class="flex-1 space-y-1 px-3 py-4 overflow-y-auto" id="menu-lateral">
-            <a href="#" onclick="showTab('dashboard')" id="menu-dashboard" class="sidebar-item active flex items-center px-4 py-3 rounded-md text-gray-400"><i class="fas fa-chart-pie w-6 mr-3"></i> Dashboard</a>
-            <a href="#" onclick="showTab('inscricoes')" id="menu-inscricoes" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400"><i class="fas fa-clipboard-list w-6 mr-3"></i> Leads Workshops</a>
-            <a href="#" onclick="showTab('alunos')" id="menu-alunos" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400"><i class="fas fa-users w-6 mr-3"></i> Meus Alunos</a>
-            <a href="#" onclick="showTab('conteudo-didatico')" id="menu-conteudo-didatico" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400 hover:bg-white/5 transition">
-                <i class="fas fa-book-open w-6 mr-3"></i> Conteúdo Aulas
+            <a href="#" onclick="showTab('dashboard')" id="menu-dashboard" class="sidebar-item active flex items-center px-4 py-3 rounded-md text-gray-400">
+                <i class="fas fa-chart-pie w-6 mr-3"></i> Dashboard
             </a>
-            <a href="#" onclick="showTab('agenda')" id="menu-agenda" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400"><i class="fas fa-calendar-alt w-6 mr-3"></i> Agenda</a>
-            <a href="#" onclick="showTab('atendimento')" id="menu-atendimento" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400"><i class="fas fa-comments w-6 mr-3"></i> Chat & Grupos</a>
+            <a href="#" onclick="showTab('inscricoes')" id="menu-inscricoes" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400">
+                <i class="fas fa-bullseye w-6 mr-3"></i> Leads
+            </a>
+
+            <a href="#" onclick="showTab('alunos')" id="menu-alunos" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400">
+                <i class="fas fa-user-graduate w-6 mr-3"></i> Meus Alunos
+            </a>
+            <a href="#" onclick="showTab('aulas-experimentais')" id="menu-aulas-experimentais" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400">
+                <i class="fas fa-flask w-6 mr-3"></i> Aulas Experimentais
+            </a>
+
+            <a href="#" onclick="showTab('matricula')" id="menu-matricula" class="sidebar-item">
+                <i class="fas fa-address-card"></i> Matrículas
+            </a>
+            
             <a href="#" onclick="showTab('equipe')" id="menu-equipe" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400">
                 <i class="fas fa-id-badge w-6 mr-3"></i> Gestão de Equipe
             </a>
+            <a href="#" onclick="showTab('coordenacao-sprints')" id="menu-coordenacao" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400 hover:bg-white/5 transition-all">
+                <i class="fas fa-tasks w-6 mr-3 text-[#00FFFF]"></i> 
+                <span class="font-bold">Coordenação de Sprints</span>
+            </a>
+
             
             <div class="pt-4 mt-4 border-t border-[#222]">
-                <p class="px-4 text-xs text-gray-600 uppercase font-bold mb-2">Ações</p>
-                <a href="#" onclick="showTab('turmas')" id="menu-turmas" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400">
-                    <i class="fas fa-layer-group w-6 mr-3"></i> Gestão de Turmas
+                <p class="px-4 text-[10px] text-gray-600 uppercase font-bold mb-2 tracking-widest">Acadêmico</p>
+                <a href="#" onclick="showTab('turmas')" id="menu-turmas" class="sidebar-item flex items-center px-4 py-2 rounded-md text-gray-400 text-sm">
+                    <i class="fas fa-layer-group w-5 mr-3"></i> Gestão de Turmas
                 </a>
-                <a href="#" onclick="showTab('cadastro')" id="menu-cadastro" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400"><i class="fas fa-user-plus w-6 mr-3"></i> Novo Aluno</a>
-                <a href="#"
-                    onclick="showTab('novo-usuario')"
-                    id="menu-novo-usuario"
-                    class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400">
-                    <i class="fas fa-user-lock w-6 mr-3"></i> Novo Usuário
+                <a href="#" onclick="showTab('cadastro')" id="menu-cadastro" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400">
+                    <i class="fas fa-user-plus w-5 mr-3"></i> Cadastrar Aluno
                 </a>
-                <a href="#" onclick="showTab('reposicao')" id="menu-reposicao" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400"><i class="fas fa-clock w-6 mr-3"></i> Reposições</a>
+    
+                <a href="#" onclick="showTab('novo-usuario')" id="menu-novo-usuario" class="sidebar-item flex items-center px-4 py-3 rounded-md text-gray-400">
+                    <i class="fas fa-key w-5 mr-3"></i> Criar Login do Aluno
+                </a>
+                <a href="#" onclick="showTab('frequencia')" id="menu-frequencia" class="sidebar-item flex items-center px-4 py-2 rounded-md text-gray-400 text-sm">
+                    <i class="fas fa-list-check w-5 mr-3"></i> Frequências
+                </a>
+                <a href="#" onclick="showTab('chamada')" id="menu-chamada" class="sidebar-item flex items-center px-4 py-2 rounded-md text-gray-400 text-sm">
+                    <i class="fas fa-check-double w-5 mr-3"></i> Chamadas
+                </a>
+                <a href="#" onclick="showTab('reposicao')" id="menu-reposicao" class="sidebar-item flex items-center px-4 py-2 rounded-md text-gray-400 text-sm">
+                    <i class="fas fa-clock w-5 mr-3"></i> Reposições
+                </a>
+                <a href="#" onclick="showTab('feriados')" id="menu-feriados" class="sidebar-item flex items-center px-4 py-2 rounded-md text-gray-400 text-sm">
+                    <i class="fas fa-calendar-times w-5 mr-3"></i> Feriados
+                </a>
+                <a href="#" onclick="showTab('atendimento')" id="menu-atendimento" class="sidebar-item flex items-center px-4 py-2 rounded-md text-gray-400 text-sm">
+                    <i class="fas fa-comments w-5 mr-3"></i> Chat & Grupos
+                </a>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-[#222]">
+                <p class="px-4 text-[10px] text-gray-600 uppercase font-bold mb-2 tracking-widest">Eventos</p>
+                
+                <a href="#" onclick="showTab('aniversario')" id="menu-aniversario" 
+                class="sidebar-item flex items-center px-4 py-2 rounded-md text-gray-400 text-sm hover:bg-white/5 transition-all">
+                    <i class="fas fa-birthday-cake w-5 mr-3 text-[#00FFFF]"></i> 
+                    <span>Aniversário Gamer</span>
+                </a>
             </div>
         </nav>
         
@@ -86,39 +126,293 @@
 
         <div class="flex-1 overflow-y-auto bg-[#0f0f0f] relative" id="mainContent">
 
-            <div id="dashboard" class="tab-content p-4 md:p-8 fade-in">
-                <h1 class="text-2xl md:text-3xl font-bold text-white mb-6">Visão Geral</h1>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-[#222] p-4 rounded-lg border border-[#333] relative overflow-hidden group hover:border-[#00FFFF] transition">
-                        <div class="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition"><i class="fas fa-user-graduate text-6xl text-white"></i></div>
-                        <h3 class="text-gray-400 text-xs uppercase font-bold">Total Alunos</h3><p class="text-2xl md:text-3xl font-bold text-white mt-1" id="dash-total-alunos">...</p>
-                    </div>
-                    <div class="bg-[#222] p-4 rounded-lg border border-[#333] relative overflow-hidden group hover:border-[#00FFFF] transition">
-                        <div class="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition"><i class="fas fa-chalkboard text-6xl text-white"></i></div>
-                        <h3 class="text-gray-400 text-xs uppercase font-bold">Turmas Ativas</h3><p class="text-2xl md:text-3xl font-bold text-[#00FFFF] mt-1" id="dash-turmas-ativas">...</p>
-                    </div>
-                    <div class="bg-[#222] p-4 rounded-lg border border-[#333] relative overflow-hidden group hover:border-[#00FFFF] transition">
-                        <div class="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition"><i class="fas fa-bullseye text-6xl text-white"></i></div>
-                        <h3 class="text-gray-400 text-xs uppercase font-bold">Taxa Conversão</h3><p class="text-2xl md:text-3xl font-bold text-green-400 mt-1"><span id="dash-conversao">...</span><span class="text-sm">%</span></p>
-                    </div>
-                    <div class="bg-[#222] p-4 rounded-lg border border-[#333] relative overflow-hidden group hover:border-[#00FFFF] transition">
-                        <div class="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition"><i class="fas fa-clock text-6xl text-white"></i></div>
-                        <h3 class="text-gray-400 text-xs uppercase font-bold">Reposições Pend.</h3><p class="text-2xl md:text-3xl font-bold text-yellow-400 mt-1" id="dash-reposicoes">...</p>
+            <div id="coordenacao-sprints" class="tab-content hidden p-4 md:p-8 space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-white tracking-tight">Sprints <span class="text-[#00FFFF]">Pedagógicas</span></h1>
+                        <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Monitoramento de Turmas e Professores</p>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="bg-[#222] p-6 rounded-lg border border-[#333]">
-                        <h3 class="text-white font-bold mb-4 flex items-center"><i class="fas fa-filter text-[#00FFFF] mr-2"></i> Funil de Leads</h3>
-                        <div class="h-64 relative"><canvas id="graficoLeads"></canvas></div>
-                        <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
-                            <div class="bg-[#111] p-2 rounded text-red-400 border border-red-900/30"><div class="font-bold text-lg" id="d-pend">0</div>Pendentes</div>
-                            <div class="bg-[#111] p-2 rounded text-yellow-400 border border-yellow-900/30"><div class="font-bold text-lg" id="d-atend">0</div>Atendendo</div>
-                            <div class="bg-[#111] p-2 rounded text-green-400 border border-green-900/30"><div class="font-bold text-lg" id="d-matr">0</div>Matriculados</div>
+
+                <div class="flex flex-wrap gap-2 bg-[#111] p-2 rounded-xl border border-[#333] mb-6" id="sprint-tabs">
+                    </div>
+
+                <div id="sprint-checklist-container" class="bg-[#161616] border border-[#222] rounded-2xl p-6 shadow-2xl min-h-[400px]">
+                    <div id="welcome-sprint" class="flex flex-col items-center justify-center py-20 opacity-30 text-white">
+                        <i class="fas fa-layer-group text-6xl mb-4"></i>
+                        <p class="text-sm font-bold uppercase tracking-widest">Selecione uma turma para iniciar o checklist</p>
+                    </div>
+                    <div id="active-sprint-content" class="hidden space-y-6">
+                        </div>
+                </div>
+            </div>
+
+            <div id="dashboard" class="tab-content hidden space-y-6">
+                <div class="flex flex-wrap gap-4 mb-6 bg-[#1a1a1a] p-4 rounded-lg border border-[#333] items-end">
+                    <div>
+                        <label class="block text-[#888] text-[10px] uppercase font-bold mb-1">Data Início</label>
+                        <input type="date" id="filtro-data-inicio" class="bg-[#0f0f0f] border border-[#333] text-white text-xs rounded p-2 focus:border-[#00FFFF] outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[#888] text-[10px] uppercase font-bold mb-1">Data Fim</label>
+                        <input type="date" id="filtro-data-fim" class="bg-[#0f0f0f] border border-[#333] text-white text-xs rounded p-2 focus:border-[#00FFFF] outline-none">
+                    </div>
+                    <button onclick="carregarDashboardFrequenciaCompleto()" class="bg-[#00FFFF] text-black font-bold text-xs px-4 py-2.5 rounded hover:bg-cyan-400 transition-colors">
+                        <i class="fas fa-filter mr-1"></i> FILTRAR
+                    </button>
+                </div>
+    
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-[#222] p-4 rounded-lg border-l-4 border-[#00FFFF] shadow-md">
+                        <h3 class="text-gray-400 text-xs uppercase font-bold tracking-wider">Frequência Geral</h3>
+                        <div class="flex items-end gap-2">
+                            <p class="text-3xl font-bold text-white mt-1" id="dash-assiduidade">0%</p>
+                            <div class="flex-grow mb-2 bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                                <div id="barra-assiduidade" class="bg-[#00FFFF] h-full transition-all duration-1000" style="width: 0%"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="bg-[#222] p-6 rounded-lg border border-[#333]">
-                        <h3 class="text-white font-bold mb-4 flex items-center"><i class="fas fa-chart-bar text-[#00FFFF] mr-2"></i> Turmas por Curso</h3>
-                        <div class="h-64 relative"><canvas id="graficoCursos"></canvas></div>
+
+                    <div class="bg-[#222] p-4 rounded-lg border border-[#333]">
+                        <h3 class="text-gray-400 text-xs uppercase font-bold tracking-wider">Total de Alunos</h3>
+                        <p class="text-3xl font-bold text-white mt-1" id="dash-total-alunos">--</p>
+                    </div>
+
+                    <div class="bg-[#222] p-4 rounded-lg border border-[#333]">
+                        <h3 class="text-gray-400 text-xs uppercase font-bold tracking-wider">Turmas Ativas</h3>
+                        <p class="text-3xl font-bold text-white mt-1" id="dash-turmas-ativas">--</p>
+                    </div>
+
+                    <div class="bg-[#222] p-4 rounded-lg border border-[#333]">
+                        <h3 class="text-gray-400 text-xs uppercase font-bold tracking-wider">Aulas Hoje</h3>
+                        <p class="text-3xl font-bold text-white mt-1" id="dash-aulas-hoje">--</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <div class="bg-[#222] p-6 rounded-lg border border-[#333] flex flex-col h-[400px]">
+                        <h3 class="text-[#00FFFF] font-bold mb-4 uppercase text-sm flex items-center gap-2">
+                            <i class="fas fa-chart-pie"></i> Divisão de Frequência
+                        </h3>
+                        <div class="relative flex-grow">
+                            <canvas id="chartFrequencia"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#222] p-6 rounded-lg border border-[#333] flex flex-col lg:col-span-2 h-[400px]">
+                        <h3 class="text-[#00FFFF] font-bold mb-4 uppercase text-sm flex items-center gap-2">
+                            <i class="fas fa-users"></i> Frequência por Turma
+                        </h3>
+                        <div class="relative flex-grow">
+                            <canvas id="chartFrequenciaTurma"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#222] p-6 rounded-lg border border-[#333] flex flex-col lg:col-span-2 h-[400px]">
+                        <h3 class="text-[#00FFFF] font-bold mb-4 uppercase text-sm flex items-center gap-2">
+                            <i class="fas fa-graduation-cap"></i> Frequência por Curso
+                        </h3>
+                        <div class="relative flex-grow">
+                            <canvas id="chartFrequenciaCurso"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#222] p-6 rounded-lg border border-[#333] flex flex-col h-[400px]">
+                        <h3 class="text-[#00FFFF] font-bold mb-4 uppercase text-sm flex items-center gap-2">
+                            <i class="fas fa-chart-line"></i> Evolução Mensal
+                        </h3>
+                        <div class="relative flex-grow">
+                            <canvas id="chartFrequenciaMes"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-[#1a1a1a] p-4 rounded-lg border border-[#333] h-[300px]">
+                    <h3 class="text-[#00FFFF] text-xs font-bold mb-4 uppercase flex items-center gap-2">
+                        <i class="fas fa-user-tie"></i> Frequência por Professor
+                    </h3>
+                    <canvas id="chartFrequenciaProfessor"></canvas>
+                </div>
+
+                <div class="mt-10 mb-4">
+                    <h3 class="text-[#00FFFF] font-black uppercase italic text-sm tracking-widest flex items-center gap-2">
+                        <i class="fas fa-rocket text-xs"></i> Performance Pedagógica (Sprints)
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-[#111] p-6 rounded-2xl border border-[#333] hover:border-[#00FFFF]/30 transition-all">
+                        <p class="text-gray-500 text-[10px] font-bold uppercase tracking-tighter">Índice de Conformidade (DoD)</p>
+                        <h3 id="dash-sprint-score" class="text-3xl font-black text-[#00FFFF]">0%</h3>
+                        <p class="text-[9px] text-gray-600 mt-1 italic">Meta: > 90% de adesão</p>
+                    </div>
+                    
+                    <div class="bg-[#111] p-6 rounded-2xl border border-[#333] hover:border-[#00FFFF]/30 transition-all">
+                        <p class="text-gray-500 text-[10px] font-bold uppercase tracking-tighter">Sprints Realizadas</p>
+                        <h3 id="dash-sprint-total" class="text-3xl font-black text-white">0</h3>
+                        <p class="text-[9px] text-gray-600 mt-1 italic">Total acumulado na unidade</p>
+                    </div>
+
+                    <div class="md:col-span-2 bg-[#111] p-6 rounded-2xl border border-[#333] relative h-[180px]">
+                        <p class="text-gray-500 text-[10px] font-bold uppercase mb-4 tracking-tighter">Conformidade Média por Instrutor (%)</p>
+                        <div class="absolute inset-x-6 bottom-4 h-[110px]">
+                            <canvas id="chartSprintProfessores"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#222] p-6 rounded-lg border border-[#333]">
+                    <h3 class="text-[#FF3131] font-bold mb-4 uppercase text-sm flex items-center gap-2">
+                        <i class="fas fa-exclamation-triangle"></i> Alunos com Mais Faltas (Alerta)
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-gray-400">
+                            <thead class="border-b border-[#333] text-[#00FFFF] uppercase text-xs">
+                                <tr>
+                                    <th class="py-3 px-2">Aluno</th>
+                                    <th class="py-3 px-2">Turma</th>
+                                    <th class="py-3 px-2 text-center">Total Faltas</th>
+                                    <th class="py-3 px-2 text-right">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-alunos-criticos">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="aulas-experimentais" class="tab-content hidden p-4 md:p-8 fade-in">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-[#00FFFF]">Aulas Experimentais</h1>
+                        <p class="text-xs text-gray-500 mt-1">Todos podem visualizar. Apenas vendedor/gerência podem criar/editar.</p>
+                    </div>
+
+                    <div class="flex gap-2 items-center">
+                        <input id="filtroAulasExp" type="text" placeholder="Buscar por aluno, responsável, curso, vendedor..."
+                            class="w-full md:w-96 bg-[#111] border border-[#333] rounded px-3 py-2 text-white outline-none" />
+                        <button id="btnNovaAulaExp" onclick="abrirModalAulaExp()"
+                            class="px-4 py-2 rounded bg-[#00FFFF] text-black font-bold hover:brightness-110 transition whitespace-nowrap hidden">
+                            <i class="fas fa-plus mr-2"></i>Nova aula
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-[#222] rounded-lg border border-[#333] overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <div class="p-3 border-b border-[#333] bg-[#151515] flex justify-between items-center sticky top-0 z-20">
+                                <h3 class="text-white font-bold text-sm"><i class="fas fa-filter mr-2 text-[#00FFFF]"></i></h3>
+                            <tr class="bg-[#111] border-b border-[#333]">
+                                <td class="p-1"></td> <td class="p-1"><select id="f-resp" onchange="filtrarAulasExpLocal()" class="w-full bg-[#222] border border-[#444] text-white text-xs rounded px-1 py-1 focus:border-[#00FFFF] outline-none"><option value="">Todos</option></select></td>
+                                <td class="p-1"></td> <td class="p-1"></td> <td class="p-1"><select id="f-aluno" onchange="filtrarAulasExpLocal()" class="w-full bg-[#222] border border-[#444] text-white text-xs rounded px-1 py-1 focus:border-[#00FFFF] outline-none"><option value="">Todos</option></select></td>
+                                <td class="p-1"><select id="f-data" onchange="filtrarAulasExpLocal()" class="w-full bg-[#222] border border-[#444] text-white text-xs rounded px-1 py-1 focus:border-[#00FFFF] outline-none"><option value="">Todas</option></select></td>
+                                <td class="p-1"></td> <td class="p-1"><select id="f-curso" onchange="filtrarAulasExpLocal()" class="w-full bg-[#222] border border-[#444] text-white text-xs rounded px-1 py-1 focus:border-[#00FFFF] outline-none"><option value="">Todos</option></select></td>
+                                <td class="p-1"><select id="f-origem" onchange="filtrarAulasExpLocal()" class="w-full bg-[#222] border border-[#444] text-white text-xs rounded px-1 py-1 focus:border-[#00FFFF] outline-none"><option value="">Todas</option></select></td>
+                                <td class="p-1"><select id="f-vend" onchange="filtrarAulasExpLocal()" class="w-full bg-[#222] border border-[#444] text-white text-xs rounded px-1 py-1 focus:border-[#00FFFF] outline-none"><option value="">Todos</option></select></td>
+                                <td class="p-1"><select id="f-status" onchange="filtrarAulasExpLocal()" class="w-full bg-[#222] border border-[#444] text-white text-xs rounded px-1 py-1 focus:border-[#00FFFF] outline-none"><option value="">Todos</option></select></td>
+                                <td class="p-1"></td> <td class="p-1"></td> <td class="p-1 text-right">
+                                    <button onclick="limparFiltrosAulasExp()" class="w-full bg-[#333] hover:bg-[#444] text-gray-300 text-xs py-1 rounded transition" title="Limpar Filtros">Limpar</button>
+                                </td>
+                            </tr>
+                        </div>
+                        <table class="min-w-full text-xs">
+                            <thead class="bg-[#1a1a1a] border-b border-[#333] sticky top-0 z-10 text-gray-300 text-sm">
+
+                                <tr class="select-none">
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('id')">ID <i id="sort-id" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('responsavel')">Responsável <i id="sort-responsavel" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('contato1')">Contato <i id="sort-contato1" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold">Contato 2</th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('aluno')">Aluno(a) <i id="sort-aluno" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('data_aula')">Data <i id="sort-data_aula" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('horario')">Horário <i id="sort-horario" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('curso')">Curso <i id="sort-curso" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('origem')">Origem <i id="sort-origem" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('vendedor_nome')">Vendedor <i id="sort-vendedor_nome" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('status_atendimento')">Status <i id="sort-status_atendimento" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-left font-semibold">Observação</th>
+                                    <th class="p-3 text-left font-semibold cursor-pointer hover:text-[#00FFFF] transition" onclick="ordenarAulasExp('created_at')">Criado em <i id="sort-created_at" class="fas fa-sort text-gray-500 ml-1"></i></th>
+                                    <th class="p-3 text-right font-semibold">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-aulas-experimentais" class="divide-y divide-[#333] text-gray-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div id="modalAulaExp" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4">
+                    <div class="w-full max-w-2xl bg-[#111] border border-[#333] rounded-lg overflow-hidden">
+                        <div class="flex items-center justify-between p-4 border-b border-[#222]">
+                            <h2 class="text-white font-bold"><i class="fas fa-flask text-[#00FFFF] mr-2"></i><span id="tituloModalAulaExp">Nova Aula Experimental</span></h2>
+                            <button onclick="fecharModalAulaExp()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                        </div>
+
+                        <form id="formAulaExp" onsubmit="salvarAulaExp(event)" class="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <input type="hidden" id="aexpId" />
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">RESPONSÁVEL</label>
+                                <input id="aexpResponsavel" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" />
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">ALUNO(A)</label>
+                                <input id="aexpAluno" required class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" />
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">CONTATO1</label>
+                                <input id="aexpContato1" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" />
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">CONTATO2</label>
+                                <input id="aexpContato2" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" />
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">DATA DA AULA</label>
+                                <input id="aexpData" type="date" required class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" />
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">HORÁRIO</label>
+                                <input id="aexpHorario" placeholder="Ex: 14:30" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" />
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">CURSO</label>
+                                <input id="aexpCurso" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" />
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">ORIGEM</label>
+                                <input id="aexpOrigem" placeholder="LEADS / LOJA / ..." class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" />
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">VENDEDOR</label>
+                                <select id="aexpVendedor" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none">
+                                    <option value="">Selecione...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="text-[10px] text-gray-400 font-bold">STATUS DE ATENDIMENTO</label>
+                                <input id="aexpStatusAtend" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" />
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="text-[10px] text-gray-400 font-bold">OBSERVAÇÃO</label>
+                                <textarea id="aexpObs" rows="3" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none"></textarea>
+                            </div>
+
+                            <div class="md:col-span-2 flex justify-end gap-2 pt-2 border-t border-[#222] mt-2">
+                                <button type="button" onclick="fecharModalAulaExp()" class="px-4 py-2 rounded border border-[#444] text-gray-300 hover:bg-white/5">Cancelar</button>
+                                <button type="submit" class="px-4 py-2 rounded bg-[#00FFFF] text-black font-bold hover:brightness-110">Salvar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -159,69 +453,41 @@
             </div>
 
             
-            <div id="turmas" class="tab-content hidden p-4 md:p-8 fade-in">
-                <h1 class="text-2xl md:text-3xl font-bold text-[#00FFFF] mb-6">Gestão de Turmas</h1>
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                    <div class="lg:col-span-4">
-                        <div class="bg-[#222] p-4 md:p-6 rounded-lg border border-[#333]">
-                            <h2 class="text-white font-bold mb-4 border-b border-[#333] pb-2 flex items-center">
-                                <i class="fas fa-plus-circle text-[#00FFFF] mr-2"></i> <span id="tituloFormTurma">Nova Turma</span>
-                            </h2>
-                            <form id="formTurma" onsubmit="salvarTurma(event)" class="space-y-3">
-                                <div><label class="text-xs text-gray-400">Código</label><input type="text" id="tmCodigo" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white uppercase outline-none" required></div>
-                                <div><label class="text-xs text-gray-400">Curso</label><select id="tmCurso" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none"><option value="GAME PRO">GAME PRO</option><option value="DESIGNER START">DESIGNER START</option><option value="GAME DEV">GAME DEV</option><option value="YOUTUBER">YOUTUBER</option></select></div>
-                                <div><label class="text-xs text-gray-400">Professor</label><select id="tmProfessor" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none"><option value="">Sem Professor</option></select></div>
-                                <div class="grid grid-cols-2 gap-2"><div><label class="text-xs text-gray-400">Início</label><input type="date" id="tmDataInicio" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white"></div><div><label class="text-xs text-gray-400">Qtd Aulas</label><input type="number" id="tmQtdAulas" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white"></div></div>
-                                <div><label class="text-xs text-gray-400">Fim Real</label><input type="date" id="tmDataFinal" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white"></div>
-                                <div class="grid grid-cols-2 gap-2"><div><label class="text-xs text-gray-400">Dia</label><select id="tmDia" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white"><option>Segunda</option><option>Terça</option><option>Quarta</option><option>Quinta</option><option>Sexta</option><option>Sábado</option></select></div><div><label class="text-xs text-gray-400">Horário</label><input type="text" id="tmHorario" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white"></div></div>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <div><label class="text-xs text-gray-400">Sala</label><input type="text" id="tmSala" value="Lab 1" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white"></div>
-                                    <div>
-                                        <label class="text-xs text-gray-400">Status</label>
-                                        <select id="tmStatus" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white">
-                                            <option value="Planejada">🟡 Planejada (Breve)</option>
-                                            <option value="Em Andamento">🟢 Em Andamento (Vagas)</option>
-                                            <option value="Fechada">🔴 Fechada (Lotada)</option>
-                                            <option value="Concluída">⚫ Concluída (Finalizada)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="text-xs text-gray-400">Tipo da Turma</label>
-                                    <select id="tmTipo" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white">
-                                        <option value="PARTICULAR">Particular (Padrão)</option>
-                                        <option value="PROJETO">Projeto (SEDUC/Parceria)</option>
-                                    </select>
-                                </div>
-                                <div class="flex gap-2 mt-4"><button type="submit" id="btnSalvarTurma" class="flex-1 bg-[#00FFFF] text-black font-bold py-2 rounded hover:bg-[#00cccc]">SALVAR</button><button type="button" onclick="limparFormTurma()" class="px-3 bg-[#333] text-white rounded hover:bg-[#444]"><i class="fas fa-eraser"></i></button></div>
-                            </form>
+            <div id="turmas" class="tab-content hidden p-4 md:p-8 fade-in space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-white tracking-tight">
+                            Gestão de <span class="text-[#00FFFF]">Turmas</span>
+                        </h1>
+                        <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Configuração de horários e cursos ativos</p>
+                    </div>
+                    <button onclick="abrirModalNovaTurma()" class="bg-[#00FFFF] hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] text-black font-black px-6 py-3 rounded-xl transition-all flex items-center gap-2 transform hover:scale-105 active:scale-95">
+                        <i class="fas fa-plus-circle text-lg"></i> NOVA TURMA
+                    </button>
+                </div>
+
+                <div class="bg-[#111] rounded-2xl overflow-hidden border border-[#222] shadow-2xl">
+                    <div class="p-4 bg-[#161616] border-b border-[#222] flex justify-between items-center">
+                        <h3 class="text-white font-bold text-sm uppercase tracking-widest">Turmas Ativas</h3>
+                        <div class="relative w-64 md:w-80">
+                            <i class="fas fa-search absolute left-3 top-2.5 text-gray-600 text-xs"></i>
+                            <input type="text" id="input-busca-turmas" oninput="filtrarTabelaGeneric('input-busca-turmas', 'listaTurmasBody')" placeholder="Pesquisar código ou curso..." 
+                                class="w-full bg-[#0f0f0f] border border-[#333] rounded-full py-2 pl-9 pr-4 text-xs text-white outline-none focus:border-[#00FFFF] transition">
                         </div>
                     </div>
-
-                    <div class="lg:col-span-8">
-                        <div class="bg-[#222] rounded-lg overflow-hidden border border-[#333] h-full flex flex-col">
-                            <div class="p-3 bg-[#151515] border-b border-[#333] flex justify-between items-center">
-                                <h3 class="text-gray-300 font-bold">Turmas</h3>
-                                <div class="flex items-center gap-3">
-                                    <div class="relative w-48">
-                                        <i class="fas fa-search absolute left-3 top-2 text-gray-500 text-[10px]"></i>
-                                        <input type="text" id="input-busca-turmas" oninput="filtrarTabelaGeneric('input-busca-turmas', 'listaTurmasBody')" placeholder="Filtrar turmas..." 
-                                            class="w-full bg-[#0f0f0f] border border-[#333] rounded-full py-1 pl-8 pr-3 text-[10px] text-white outline-none focus:border-[#00FFFF]">
-                                    </div>
-                                    <button onclick="carregarListaTurmas()" class="text-[#00FFFF] hover:scale-110 transition"><i class="fas fa-sync"></i></button>
-                                </div>
-                            </div>
-                            <div class="overflow-x-auto"> 
-                                <table class="w-full text-left min-w-[600px]">
-                                    <thead class="bg-[#111] text-[#00FFFF] text-xs">
-                                        <tr><th class="p-3">Código</th><th class="p-3">Curso</th><th class="p-3">Datas</th><th class="p-3">Status</th><th class="p-3">Ação</th></tr>
-                                    </thead>
-                                    <tbody id="listaTurmasBody" class="text-gray-300 text-xs">
-                                        <tr><td colspan="5" class="p-4 text-center">...</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left">
+                            <thead class="bg-[#0c0c0c] text-gray-500 text-[10px] uppercase font-black">
+                                <tr>
+                                    <th class="p-4">Código / Curso</th>
+                                    <th class="p-4">Cronograma</th>
+                                    <th class="p-4 text-center">Status</th>
+                                    <th class="p-4 text-right">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaTurmasBody" class="text-xs divide-y divide-[#1a1a1a] text-gray-400">
+                                </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -288,7 +554,7 @@
             <div id="cadastro" class="tab-content hidden p-4 md:p-8 fade-in">
                 <h1 class="text-2xl md:text-3xl font-bold text-[#00FFFF] mb-6">Cadastrar Aluno</h1>
                 <div class="bg-[#222] p-6 rounded-lg border border-[#333] max-w-4xl"> 
-                    <form id="formCadastroAluno" class="space-y-4">
+                    <form id="formCadastroAluno" class="space-y-4" onsubmit="cadastrarAluno(event)">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div><label class="text-gray-400 text-sm">Nome *</label><input type="text" id="cadNome" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white uppercase" required></div>
                             <div><label class="text-gray-400 text-sm">Email (Login) *</label><input type="email" id="cadEmail" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white" required></div>
@@ -311,11 +577,120 @@
                 </div>
             </div>
 
+            <div id="chamada" class="tab-content hidden p-4 md:p-6 fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-clipboard-check text-[#00FFFF]"></i> Lançar Chamada
+                    </h2>
+                </div>
+                
+
+                <div class="bg-[#1a1a1a] p-4 rounded-lg border border-[#333] mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-gray-400 text-[10px] font-bold uppercase mb-1">Turma</label>
+                                <select id="selectTurmaChamada" onchange="liberarUploadChamada()" class="w-full bg-[#0f0f0f] border border-[#333] text-white text-xs rounded p-2.5 outline-none">
+                                    <option value="">Selecione a Turma...</option>
+                                </select>
+                            </div>
+                            <div class="flex items-end gap-2">
+                                <button onclick="imprimirModeloChamada()" class="bg-gray-700 text-white font-bold text-xs px-4 py-2.5 rounded hover:bg-gray-600 transition-all flex items-center gap-2">
+                                    <i class="fas fa-print"></i> IMPRIMIR MODELO
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-[10px] font-bold uppercase mb-1">Data da Aula</label>
+                            <input type="date" id="dataChamada" class="w-full bg-[#0f0f0f] border border-[#333] text-white text-xs rounded p-2.5 outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#1a1a1a] rounded-lg border border-[#333] overflow-hidden mb-6">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-[#222] text-gray-400 text-[10px] uppercase">
+                            <tr>
+                                <th class="p-4">Aluno</th>
+                                <th class="p-4 text-center">Presença</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-chamada-corpo">
+                            </tbody>
+                    </table>
+                </div>
+
+                <div id="area-finalizar-chamada" class="bg-[#1a1a1a] p-6 rounded-lg border-2 border-dashed border-[#333] opacity-50 pointer-events-none transition-all">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="flex-1 w-full">
+                            <label class="block text-[#00FFFF] text-xs font-bold uppercase mb-2">
+                                <i class="fas fa-camera"></i> 1. Foto da Lista Assinada
+                            </label>
+                            <input type="file" id="fotoChamada" accept="image/*" capture="environment" class="w-full bg-[#0f0f0f] border border-[#333] text-gray-400 text-sm rounded p-2 outline-none">
+                        </div>
+                        
+                        <div class="w-full md:w-auto">
+                            <label class="hidden md:block text-transparent text-xs mb-2">Ação</label>
+                            <button id="btnSalvarChamada" onclick="enviarChamadaComFoto()" class="w-full md:w-64 bg-[#00FFFF] text-black font-extrabold py-4 rounded hover:bg-cyan-400 transition-all flex items-center justify-center gap-3">
+                                <i class="fas fa-save"></i> SALVAR CHAMADA
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-gray-500 mt-3 text-center md:text-left italic">
+                        * O salvamento só é permitido com o envio da foto da lista física.
+                    </p>
+                </div>
+            </div>
+
+            <div id="frequencia" class="tab-content hidden p-4 md:p-8 fade-in flex flex-col h-full !justify-start !items-start">
+                <div class="w-full">
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                        <div>
+                            <h1 class="text-3xl font-extrabold text-white tracking-tight">
+                                Mapa de <span class="text-[#00FFFF]">Frequência Acadêmica</span>
+                            </h1>
+                            <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Visão por Módulos e Evolução Pedagógica</p>
+                        </div>
+                        
+                        <div class="flex gap-3 bg-[#1a1a1a] p-2 rounded-xl border border-[#333]">
+                            <select id="select-turma-frequencia" onchange="carregarMapaFrequencia()" class="bg-[#0f0f0f] border border-[#333] text-white text-xs rounded-lg p-2.5 outline-none min-w-[200px] focus:border-[#00FFFF]">
+                                <option value="">Selecione a Turma...</option>
+                            </select>
+                            <button onclick="carregarMapaFrequencia()" class="bg-[#222] text-[#00FFFF] p-2.5 rounded-lg hover:bg-[#333] transition-all">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#111] rounded-2xl overflow-hidden border border-[#222] shadow-2xl mb-6">
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table id="tabela-frequencia-geral" class="w-full text-left border-collapse">
+                                <thead class="bg-[#0c0c0c] text-gray-500 text-[10px] uppercase font-black">
+                                    <tr id="header-modulos" class="border-b border-[#222]">
+                                        <th rowspan="2" class="p-4 border-r border-[#222] text-[#00FFFF]">ID</th>
+                                        <th rowspan="2" class="p-4 border-r border-[#222] text-[#00FFFF]">Aluno</th>
+                                    </tr>
+                                    <tr id="header-aulas" class="border-b border-[#222]"></tr>
+                                </thead>
+                                <tbody id="corpo-frequencia" class="text-xs divide-y divide-[#1a1a1a] text-gray-400">
+                                    <tr>
+                                        <td colspan="100%" class="p-20 text-center text-gray-600 italic">
+                                            <i class="fas fa-arrow-up mr-2"></i> Selecione uma turma acima para carregar o mapa.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="novo-usuario" class="tab-content hidden p-4 md:p-8 fade-in">
                 <h1 class="text-2xl md:text-3xl font-bold text-[#00FFFF] mb-6">Novo Usuário (Login)</h1>
 
                 <div class="bg-black/30 border border-[#222] rounded-xl p-6">
-                    <form id="formNovoUsuario" class="space-y-4">
+                    <form id="formNovoUsuario" class="space-y-4" onsubmit="enviarCriacaoLoginAluno(event)">
 
                     <div>
                         <label class="block text-gray-300 font-semibold mb-1">Selecionar Aluno</label>
@@ -347,53 +722,90 @@
                 </div>
             </div>
 
-
-            <div id="agenda" class="tab-content hidden p-4 md:p-8 fade-in">
-                <h1 class="text-2xl md:text-3xl font-bold text-[#00FFFF] mb-6">Agenda</h1>
-                <div class="bg-[#222] p-2 md:p-4 rounded-lg border border-[#333] mb-8 overflow-hidden">
-                    <div id='calendar' class="text-xs md:text-sm"></div>
+            <div id="reposicao" class="tab-content hidden p-4 md:p-8 fade-in space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-white tracking-tight">
+                            Gestão de <span class="text-[#00FFFF]">Reposições</span>
+                        </h1>
+                        <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Controle acadêmico e conversão de faltas</p>
+                    </div>
+                    <button onclick="abrirModalAgendarReposicao()" class="bg-[#00FFFF] hover:shadow-[0_0_20px_rgba(0,255,255,0.4)] text-black font-black px-6 py-3 rounded-xl transition-all flex items-center gap-2 transform hover:scale-105 active:scale-95">
+                        <i class="fas fa-plus-circle text-lg"></i> AGENDAR NOVA
+                    </button>
                 </div>
-                <h2 class="text-xl font-bold text-white mb-4 border-l-4 border-[#ff4d4d] pl-3">Próximos</h2>
-                <div class="bg-[#222] rounded-lg overflow-hidden border border-[#333] max-h-96 overflow-y-auto">
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-[#161616] border border-[#222] p-4 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-500"><i class="fas fa-clock text-xl"></i></div>
+                        <div><p class="text-gray-500 text-[10px] font-bold uppercase">Agendadas</p><p class="text-2xl font-bold text-white" id="stats-repo-pendente">--</p></div>
+                    </div>
+                    <div class="bg-[#161616] border border-[#222] p-4 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center text-green-500"><i class="fas fa-check-double text-xl"></i></div>
+                        <div><p class="text-gray-500 text-[10px] font-bold uppercase">Concluídas</p><p class="text-2xl font-bold text-white" id="stats-repo-mes">--</p></div>
+                    </div>
+                    <div class="bg-[#161616] border border-[#222] p-4 rounded-2xl flex items-center gap-4 border-l-4 border-l-[#00FFFF]">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-[#00FFFF]"><i class="fas fa-database text-xl"></i></div>
+                        <div><p class="text-gray-500 text-[10px] font-bold uppercase">Total no Banco</p><p class="text-2xl font-bold text-white" id="stats-repo-total">--</p></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-7 bg-[#111] p-4 rounded-2xl border border-[#222] shadow-2xl">
+                        <div id="calendar"></div>
+                    </div>
+
+                    <div class="lg:col-span-5 flex flex-col gap-4">
+                        <div class="bg-[#161616] border border-[#222] rounded-2xl flex-1 flex flex-col shadow-2xl min-h-[500px] max-h-[640px] overflow-hidden">
+                            <div class="p-4 border-b border-[#222] bg-[#1a1a1a] flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-white font-bold text-sm uppercase tracking-tighter" id="titulo-agenda-dia">Compromissos</h3>
+                                    <p class="text-[9px] text-gray-500 uppercase" id="subtitulo-agenda-dia">Clique em um dia para filtrar</p>
+                                </div>
+                                <i class="fas fa-calendar-alt text-[#00FFFF] opacity-30 text-xl"></i>
+                            </div>
+                            
+                            <div id="listaAgendaRapida" class="p-4 space-y-4 overflow-y-auto flex-1 custom-scrollbar">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#111] border border-[#222] rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="p-4 border-b border-[#222] flex justify-between items-center bg-[#161616]">
+                        <h3 class="text-white font-bold text-sm uppercase tracking-widest"><i class="fas fa-history mr-2 text-[#00FFFF]"></i> Histórico Geral</h3>
+                        <div class="relative w-64">
+                            <i class="fas fa-search absolute left-3 top-2 text-gray-500 text-xs"></i>
+                            <input type="text" id="buscaRepoTabela" oninput="filtrarTabelaGeneric('buscaRepoTabela', 'tbodyReposicoes')" placeholder="Filtrar aluno..." class="w-full bg-[#0f0f0f] border border-[#333] rounded-full py-1.5 pl-9 pr-4 text-xs text-white focus:border-[#00FFFF] outline-none transition">
+                        </div>
+                    </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left min-w-[500px]">
-                            <thead class="bg-[#151515] text-gray-400 sticky top-0"><tr><th class="p-4 w-40">Data / Hora</th><th class="p-4">Evento</th><th class="p-4 w-32 text-center">Tipo</th><th class="p-4 w-20">Ação</th></tr></thead>
-                            <tbody id="listaAgendaBody" class="text-gray-300 text-sm divide-y divide-[#333]"></tbody>
+                        <table class="w-full text-left">
+                            <thead class="bg-[#111] text-left text-xs text-gray-500 uppercase tracking-wider border-b border-[#333]">
+                                <tr>
+                                    <th class="p-4 cursor-pointer hover:text-white transition-colors" onclick="ordenarTabelaReposicoes('data')">
+                                        Data/Hora <i id="icon-sort-data" class="fas fa-sort-down text-[#00FFFF] ml-1"></i>
+                                    </th>
+                                    <th class="p-4 cursor-pointer hover:text-white transition-colors" onclick="ordenarTabelaReposicoes('aluno')">
+                                        Aluno / Turma <i id="icon-sort-aluno" class="fas fa-sort text-gray-600 ml-1"></i>
+                                    </th>
+                                    <th class="p-4 cursor-pointer hover:text-white transition-colors" onclick="ordenarTabelaReposicoes('professor')">
+                                        Professor <i id="icon-sort-professor" class="fas fa-sort text-gray-600 ml-1"></i>
+                                    </th>
+                                    <th class="p-4">Conteúdo</th>
+                                    <th class="p-4 text-center cursor-pointer hover:text-white transition-colors" onclick="ordenarTabelaReposicoes('status')">
+                                        Status <i id="icon-sort-status" class="fas fa-sort text-gray-600 ml-1"></i>
+                                    </th>
+                                    <th class="p-4 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyReposicoes" class="text-xs divide-y divide-[#1a1a1a] text-gray-400"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <div id="reposicao" class="tab-content hidden p-4 md:p-8 fade-in">
-                <h1 class="text-2xl md:text-3xl font-bold text-[#00FFFF] mb-6">Agendar Reposição</h1>
-                <div class="bg-[#222] p-6 rounded-lg border border-[#333] max-w-2xl">
-                    <form id="formReposicao" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-400 text-sm">Aluno</label>
-                                <select id="repIdAluno" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" required><option value="" disabled selected>Carregando alunos...</option></select>
-                            </div>
-                            <div>
-                                <label class="text-gray-400 text-sm">Data/Hora</label>
-                                <input type="datetime-local" id="repData" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white" required>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-400 text-sm">Turma</label>
-                                <select id="repTurma" onchange="autoSelecionarProfessor()" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white"><option value="">Carregando...</option></select>
-                            </div>
-                            <div>
-                                <label class="text-gray-400 text-sm">Professor</label>
-                                <select id="repProfessor" class="w-full bg-[#151515] border border-[#333] rounded p-2 text-gray-300 pointer-events-none"><option value="">Aguardando...</option></select>
-                            </div>
-                        </div>
-                        <div><label class="text-gray-400 text-sm">Conteúdo</label><input type="text" id="repConteudo" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white" required></div>
-                        <button type="submit" class="w-full bg-[#ff4d4d] text-white font-bold py-3 rounded hover:bg-red-700 mt-4">AGENDAR REPOSIÇÃO</button>
-                    </form>
-                </div>
-            </div>
-            
+                            
             <div id="atendimento" class="tab-content hidden h-full flex flex-col p-4 md:p-8">
                 <h1 class="text-2xl md:text-3xl font-bold text-[#00FFFF] mb-6">Central de Atendimento</h1>
                 
@@ -419,7 +831,7 @@
                         <div class="p-2 bg-[#151515] border-b border-[#333]">
                             <div class="relative">
                                 <i class="fas fa-search absolute left-3 top-2.5 text-gray-500 text-xs"></i>
-                                <input type="text" id="input-pesquisa-chat" oninput="handleSearchInput()" placeholder="Pesquisar..." class="w-full bg-[#0f0f0f] border border-[#333] rounded-full py-1.5 pl-8 pr-3 text-xs text-white outline-none focus:border-[#00FFFF] transition placeholder-gray-600">
+                                <input type="text" id="input-pesquisa-chat" oninput="handleSearchInputChat()" placeholder="Pesquisar..." class="w-full bg-[#0f0f0f] border border-[#333] rounded-full py-1.5 pl-8 pr-3 text-xs text-white outline-none focus:border-[#00FFFF] transition placeholder-gray-600">
                             </div>
                         </div>
                         
@@ -459,6 +871,84 @@
                     </div>
                 </div>
             </div>
+            <div id="aniversario" class="tab-content hidden p-4 md:p-8 fade-in space-y-6">
+    
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-white tracking-tight">
+                            Aniversário <span class="text-[#00FFFF]">Gamer</span>
+                        </h1>
+                        <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Gestão de festas e eventos na unidade</p>
+                    </div>
+                    <button onclick="abrirModalAgendarAniversario()" class="bg-[#00FFFF] hover:shadow-[0_0_20px_rgba(0,255,255,0.4)] text-black font-black px-6 py-3 rounded-xl transition-all flex items-center gap-2 transform hover:scale-105 active:scale-95">
+                        <i class="fas fa-plus-circle text-lg"></i> AGENDAR FESTA
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <div class="lg:col-span-7 bg-[#111] p-4 rounded-2xl border border-[#222] shadow-2xl">
+                        <div id="calendarAniversario"></div>
+                    </div>
+
+                    <div class="lg:col-span-5 flex flex-col gap-4">
+                        <div class="bg-[#161616] border border-[#222] rounded-2xl flex-1 flex flex-col shadow-2xl min-h-[500px] max-h-[640px] overflow-hidden">
+                            
+                            <div class="p-4 border-b border-[#222] bg-[#1a1a1a] flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-white font-bold text-sm uppercase tracking-tighter" id="titulo-aniversario-dia">Festas do Dia</h3>
+                                    <p class="text-[9px] text-gray-500 uppercase">Clique no calendário para filtrar</p>
+                                </div>
+                                <i class="fas fa-birthday-cake text-[#00FFFF] opacity-30 text-xl"></i>
+                            </div>
+                            
+                            <div id="listaAgendaAniversario" class="p-4 space-y-4 overflow-y-auto flex-1 custom-scrollbar">
+                                <div class="flex flex-col items-center justify-center py-20 opacity-20">
+                                    <i class="fas fa-calendar-day text-5xl mb-4"></i>
+                                    <p class="text-xs font-bold uppercase tracking-widest">Selecione uma data</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#111] border border-[#222] rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="p-4 border-b border-[#222] flex justify-between items-center bg-[#161616]">
+                        <h3 class="text-white font-bold text-sm uppercase tracking-widest"><i class="fas fa-history mr-2 text-[#00FFFF]"></i> Histórico de Festas</h3>
+                        
+                        <div class="relative w-full md:w-64">
+                            <i class="fas fa-search absolute left-3 top-2 text-gray-500 text-xs"></i>
+                            <input type="text" id="buscaFestaTabela" oninput="filtrarTabelaGeneric('buscaFestaTabela', 'tbodyAniversarios')" placeholder="Filtrar aniversariante..." class="w-full bg-[#0f0f0f] border border-[#333] rounded-full py-1.5 pl-9 pr-4 text-xs text-white focus:border-[#00FFFF] outline-none transition">
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-[#111] text-left text-xs text-gray-500 uppercase tracking-wider border-b border-[#333]">
+                                <tr>
+                                    <th class="p-4 cursor-pointer hover:text-[#00FFFF] transition-colors" onclick="toggleSortFestas(this)" data-sort="data_festa">
+                                        Data <i class="fas fa-sort ml-1 opacity-30"></i>
+                                    </th>
+                                    <th class="p-4">Horário</th>
+                                    <th class="p-4 cursor-pointer hover:text-[#00FFFF] transition-colors" onclick="toggleSortFestas(this)" data-sort="aniversariante">
+                                        Aniversariante <i class="fas fa-sort ml-1 opacity-30"></i>
+                                    </th>
+                                    <th class="p-4 cursor-pointer hover:text-[#00FFFF] transition-colors" onclick="toggleSortFestas(this)" data-sort="contratante">
+                                        Responsável <i class="fas fa-sort ml-1 opacity-30"></i>
+                                    </th>
+                                    <th class="p-4 text-center">Obs</th>
+                                    <th class="p-4 text-center">Status</th>
+                                    <th class="p-4 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                                                        <tbody id="tbodyAniversarios" class="text-xs divide-y divide-[#1a1a1a] text-gray-400">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
 
             <div id="perfil" class="tab-content hidden p-4 md:p-8 fade-in">
                 <h1 class="text-2xl md:text-3xl font-bold text-[#00FFFF] mb-6">Meu Perfil</h1>
@@ -515,8 +1005,42 @@
                     </div>
                 </div>
             </div>
+            <div id="matricula" class="tab-content hidden p-4 md:p-8 fade-in space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 class="text-3xl font-black text-white uppercase tracking-tighter">Gestão de <span class="text-[#00FFFF]">Matrículas</span></h1>
+                        <p class="text-gray-500 text-[10px] uppercase font-bold tracking-widest">Listagem geral e controle de contratos</p>
+                    </div>
+                    <button onclick="abrirModalMatricula()" class="bg-[#00FFFF] text-black font-black px-6 py-3 rounded-xl hover:shadow-[0_0_15px_rgba(0,255,255,0.3)] transition-all flex items-center gap-2 uppercase text-xs">
+                        <i class="fas fa-plus-circle"></i> Nova Matrícula
+                    </button>
+                </div>
 
+                <div class="bg-[#111] p-4 rounded-2xl border border-[#222] flex flex-wrap gap-4">
+                    <div class="relative flex-1 min-w-[300px]">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-600 text-xs"></i>
+                        <input type="text" id="buscaMatricula" oninput="filtrarTabelaGeneric('buscaMatricula', 'tbodyMatriculas')" placeholder="Buscar por aluno, responsável ou CPF..." class="w-full bg-[#0f0f0f] border border-[#333] rounded-xl py-2 pl-10 pr-4 text-xs text-white outline-none focus:border-[#00FFFF] transition">
+                    </div>
+                </div>
+
+                <div class="bg-[#111] border border-[#222] rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-[#0c0c0c] text-gray-500 text-[10px] uppercase font-black border-b border-[#222]">
+                                <tr>
+                                    <th class="p-4">Aluno / Responsável</th>
+                                    <th class="p-4">Curso / Turma</th>
+                                    <th class="p-4 text-center">Situação</th>
+                                    <th class="p-4 text-right">Ações</th> </tr>
+                            </thead>
+                            <tbody id="tbodyMatriculas" class="text-xs divide-y divide-[#1a1a1a] text-gray-400">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+        
     </main>
 
     <div id="modalUniversal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 md:p-6">
@@ -555,62 +1079,628 @@
         </div>
     </div>
 
-    <div id="modalEditarRepo" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 fade-in backdrop-blur-sm p-4">
-        <div class="bg-[#1a1a1a] border border-[#333] w-full max-w-md rounded-xl shadow-2xl flex flex-col relative z-10">
-        
+    <div id="modalEditarRepo" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-[#111] border border-[#333] w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-[#333] flex justify-between items-center bg-[#151515]">
+                <h3 class="text-xl font-black text-white uppercase">Editar Agenda: <span id="editRepoNome" class="text-[#00FFFF]"></span></h3>
+                <button onclick="document.getElementById('modalEditarRepo').style.display='none'" class="text-gray-500 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <form id="formEditarRepo" class="p-6 space-y-4">
+                <input type="hidden" id="editRepoId">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Nova Data/Hora</label>
+                        <input type="datetime-local" id="editRepoData" class="w-full bg-[#0f0f0f] border border-[#333] rounded-xl p-3 text-white outline-none focus:border-[#00FFFF] transition-all">
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Professor Responsável</label>
+                        <select id="editRepoProfessor" class="w-full bg-[#0f0f0f] border border-[#333] rounded-xl p-3 text-white outline-none focus:border-[#00FFFF] transition-all">
+                            </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Conteúdo da Aula</label>
+                    <input type="text" id="editRepoConteudo" class="w-full bg-[#0f0f0f] border border-[#333] rounded-xl p-3 text-white outline-none focus:border-[#00FFFF] transition-all">
+                </div>
+
+                <div class="p-4 bg-orange-500/5 border border-orange-500/20 rounded-xl">
+                    <label class="text-[10px] text-orange-400 font-bold uppercase tracking-widest block mb-2">Subir/Alterar Assinatura (Opcional)</label>
+                    <input type="file" id="editRepoAssinatura" accept="image/*" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-orange-500/10 file:text-orange-400 hover:file:bg-orange-500/20 cursor-pointer">
+                    <p class="text-[9px] text-gray-600 mt-2">Ao subir uma foto, ela será enviada automaticamente para o Drive do professor selecionado.</p>
+                </div>
+
+                <div class="flex gap-3 pt-4">
+                    <button type="button" id="btnExcluirRepo" onclick="deletarReposicao(document.getElementById('editRepoId').value)" class="px-6 py-3 bg-red-500/10 text-red-500 font-bold rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button type="submit" id="btnSalvarRepo" class="flex-1 bg-[#00FFFF] text-black font-black py-3 rounded-xl hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all uppercase italic">
+                        Salvar Alterações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="modalAgendarRepo" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="fecharModalAgendarReposicao()"></div>
+
+        <div class="bg-[#1a1a1a] border border-[#333] w-full max-w-2xl rounded-xl shadow-2xl relative z-10">
             <div class="p-5 border-b border-[#333] flex justify-between items-center bg-[#111] rounded-t-xl">
-                <h3 class="text-lg font-bold text-[#00FFFF]">Editar Reposição</h3>
-                <button type="button" onclick="document.getElementById('modalEditarRepo').style.display='none'" class="text-gray-400 hover:text-white transition">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
+            <h3 class="text-lg font-bold text-[#00FFFF]">
+                <i class="fas fa-clock mr-2"></i> Agendar Reposição
+            </h3>
+            <button type="button" onclick="fecharModalAgendarReposicao()" class="text-gray-400 hover:text-white transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
             </div>
 
             <div class="p-6">
-                <form id="formEditarRepo" onsubmit="salvarEdicaoRepo(event)" class="space-y-4">
+            <form id="formReposicao" onsubmit="agendarReposicao(event)" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-gray-400 text-sm">Aluno *</label>
+                    <select id="repIdAluno" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none" required>
+                    <option value="" disabled selected>Carregando alunos...</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-gray-400 text-sm">Data/Hora *</label>
+                    <input type="datetime-local" id="repData" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white" required>
+                </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-gray-400 text-sm">Turma *</label>
+                    <select id="repTurma" onchange="autoSelecionarProfessor()" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white" required>
+                    <option value="" disabled selected>Carregando...</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-gray-400 text-sm">Professor *</label>
+                    <!-- IMPORTANTE: removi pointer-events-none pra permitir escolher se a turma não tiver professor -->
+                    <select id="repProfessor" class="w-full bg-[#151515] border border-[#333] rounded p-2 text-gray-300" required>
+                    <option value="" disabled selected>Carregando...</option>
+                    </select>
+                </div>
+                </div>
+
+                <div>
+                <label class="text-gray-400 text-sm">Conteúdo</label>
+                <input type="text" id="repConteudo" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white" required>
+                </div>
+
+                <div class="flex gap-3 pt-4 border-t border-[#333] mt-4">
+                <button type="button" onclick="fecharModalAgendarReposicao()"
+                    class="flex-1 bg-[#333] text-white font-bold py-3 rounded hover:bg-[#444]">
+                    Cancelar
+                </button>
+
+                <button id="btnAgendarReposicao" type="submit"
+                    class="flex-1 bg-[#00FFFF] text-black font-bold py-3 rounded hover:bg-[#00cccc]">
+                    AGENDAR
+                </button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    <div id="modalAgendarAniversario" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-[100] p-4">
+        <div class="bg-[#111] border border-[#222] w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden transform transition-all">
+            
+            <div class="p-6 border-b border-[#222] flex justify-between items-center bg-[#1a1a1a]">
+                <h3 class="text-white font-black flex items-center gap-2 tracking-tighter uppercase">
+                    <i class="fas fa-birthday-cake text-[#00FFFF]"></i> Gestão de Festa Gamer
+                </h3>
+                <button onclick="fecharModalAgendarAniversario()" class="text-gray-500 hover:text-white transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form id="formAgendarAniversario" onsubmit="agendarAniversario(event)" class="p-6 space-y-5">
+                
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-8">
+                        <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Aniversariante</label>
+                        <input type="text" id="aniNome" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none uppercase transition-all" required>
+                    </div>
+                    <div class="col-span-4">
+                        <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Idade</label>
+                        <input type="number" id="aniIdade" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none transition-all" placeholder="Ex: 10">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Responsável (Contratante)</label>
+                        <input type="text" id="aniResponsavel" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none uppercase transition-all" required>
+                    </div>
+                    <div>
+                        <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Vendedor</label>
+                        <input type="text" id="aniVendedorNome" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none uppercase transition-all" placeholder="Quem vendeu?">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Telefone</label>
+                        <input type="text" id="aniTelefone" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none transition-all" placeholder="(00) 00000-0000">
+                    </div>
+                    <div>
+                        <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Data do Pagamento</label>
+                        <input type="date" id="aniDataPagamento" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none transition-all">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Data da Festa</label>
+                        <input type="date" id="aniData" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none transition-all" required>
+                    </div>
+                    <div>
+                        <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Hora Início</label>
+                        <input type="time" id="aniHoraInicio" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none transition-all" required>
+                    </div>
+                    <div>
+                        <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Hora Fim</label>
+                        <input type="time" id="aniHoraFim" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none transition-all" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Observações Detalhadas</label>
+                    <textarea id="aniObs" rows="3" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white focus:border-[#00FFFF] outline-none text-sm transition-all" placeholder="Ex: Alergias, pacote de kit festa, detalhes do buffet..."></textarea>
+                </div>
+
+                <input type="hidden" id="aniEditId">
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="fecharModalAgendarAniversario()" class="flex-1 bg-[#222] text-white font-bold py-4 rounded-2xl hover:bg-[#333] transition-all uppercase tracking-widest text-xs">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 bg-[#00FFFF] text-black font-black py-4 rounded-2xl hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all uppercase tracking-widest text-xs transform active:scale-95">
+                        Confirmar Festa
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="modalMatricula" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="fecharModalMatricula()"></div>
+        
+        <div class="bg-[#111] border border-[#333] w-full max-w-5xl rounded-2xl shadow-2xl relative z-10 flex flex-col max-h-[95vh] overflow-hidden">
+            <div class="p-6 border-b border-[#222] bg-[#1a1a1a] flex justify-between items-center">
+                <div>
+                    <h3 class="text-xl font-black text-white uppercase italic">Fluxo de <span class="text-[#00FFFF]">Matrícula</span></h3>
+                    <p class="text-[9px] text-gray-500 uppercase font-bold" id="infoMatriculaStatus">Nova Inscrição</p>
+                </div>
+                <button onclick="fecharModalMatricula()" class="text-gray-500 hover:text-white transition-colors text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="flex bg-[#0c0c0c] border-b border-[#222] gap-1 overflow-x-auto px-4">
+                <button onclick="mudarSubAba('mat-identificacao')" class="sub-tab-btn active px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#00FFFF] border-b-2 border-[#00FFFF] transition-all" id="btn-mat-identificacao">
+                    1. Identificação
+                </button>
+                <button onclick="mudarSubAba('mat-academico')" class="sub-tab-btn px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-white transition-all" id="btn-mat-academico">
+                    2. Acadêmico
+                </button>
+                <button onclick="mudarSubAba('mat-negociacao')" class="sub-tab-btn px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-white transition-all" id="btn-mat-negociacao">
+                    3. Negociação
+                </button>
+                <button onclick="mudarSubAba('mat-finalizacao')" class="sub-tab-btn px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-white transition-all" id="btn-mat-finalizacao">
+                    4. Finalização
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-6 custom-scrollbar bg-[#0f0f0f]">
+    
+                <div id="mat-identificacao" class="sub-tab-content space-y-12">
                     
-                    <input type="hidden" id="editRepoId">
-
-                    <div>
-                        <label class="text-xs text-gray-500 font-bold uppercase">Aluno</label>
-                        <p id="editRepoNome" class="text-white font-bold text-sm bg-[#222] p-2 rounded border border-[#333]">
-                            Carregando...
-                        </p>
-                    </div>
-
-                    <div>
-                        <label class="text-xs text-gray-400">Nova Data/Hora</label>
-                        <input type="datetime-local" id="editRepoData" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none focus:border-[#00FFFF]">
-                    </div>
-
-                    <div>
-                        <label class="text-xs text-gray-400">Conteúdo/Motivo</label>
-                        <input type="text" id="editRepoConteudo" class="w-full bg-[#1a1a1a] border border-[#444] rounded p-2 text-white outline-none focus:border-[#00FFFF]">
-                    </div>
-
-                    <div class="flex items-center justify-between pt-4 border-t border-[#333] mt-4 gap-3">
+                    <div class="space-y-6">
+                        <h3 class="text-[#00FFFF] font-bold text-sm uppercase tracking-tighter border-b border-[#222] pb-2">
+                            <i class="fas fa-id-card mr-2"></i> 1. Dados do Responsável Financeiro
+                        </h3>
                         
-                        <button type="button" id="btnExcluirRepo" onclick="deletarReposicao()" class="hidden bg-red-900/20 text-red-500 border border-red-900/50 p-2.5 rounded hover:bg-red-900/40 transition" title="Excluir Reposição">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="md:col-span-1">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">CPF / CNPJ *</label>
+                                <input type="text" id="matRespCpf" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                            </div>
+                            <div class="md:col-span-3">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Nome Completo *</label>
+                                <input type="text" id="matRespNome" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF] uppercase">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">RG</label>
+                                <input type="text" id="matRespRg" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Data de Expedição</label>
+                                <input type="date" id="matRespRgData" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Órgão Exp.</label>
+                                <input type="text" id="matRespRgOrgao" placeholder="Ex: SSP" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF] uppercase">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">UF (RG)</label>
+                                <select id="matRespRgUf" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                                    <option value="MT" selected>MT</option>
+                                    <option value="SP">SP</option>
+                                    </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Estado Civil</label>
+                                <select id="matRespEstadoCivil" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                                    <option value="">Selecione...</option>
+                                    <option value="SOLTEIRO">Solteiro(a)</option>
+                                    <option value="CASADO">Casado(a)</option>
+                                    <option value="DIVORCIADO">Divorciado(a)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Profissão</label>
+                                <input type="text" id="matRespProfissao" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF] uppercase">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Data de Nasc. *</label>
+                                <input type="date" id="matRespNasc" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Sexo *</label>
+                                <select id="matRespSexo" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                                    <option value="">Nenhum</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Parentesco *</label>
+                                <select id="matRespParentesco" onchange="verificarParentescoProprio(this.value)" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                                    <option value="">Selecione...</option>
+                                    <option value="PAI">Pai</option>
+                                    <option value="MAE">Mãe</option>
+                                    <option value="PROPRIO">Próprio Cliente</option>
+                                </select>
+                            </div>
+                        </div>
 
-                        <div class="flex gap-3 flex-1 justify-end">
-                            <button type="button" onclick="document.getElementById('modalEditarRepo').style.display='none'" class="bg-[#333] text-white px-4 py-2 rounded font-bold hover:bg-[#444] transition">
-                                CANCELAR
-                            </button>
-                            <button type="submit" id="btnSalvarRepo" class="bg-[#00FFFF] text-black px-6 py-2 rounded font-bold hover:bg-[#00cccc] transition shadow-[0_0_10px_rgba(0,255,255,0.2)]">
-                                SALVAR
-                            </button>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#0c0c0c] p-4 rounded-2xl border border-[#222]">
+                            <div class="space-y-3">
+                                <p class="text-[10px] text-gray-500 font-bold uppercase">Contato Financeiro</p>
+                                <input type="email" id="matRespEmail" placeholder="EMAIL" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white">
+                                
+                                <div id="containerTelResp" class="space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <input type="text" id="matRespCelular" placeholder="CELULAR" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white">
+                                        <button type="button" onclick="adicionarCampoTelefone('containerTelResp', 'Resp')" class="bg-[#222] text-[#00FFFF] border border-[#333] rounded-xl px-3 py-2 hover:bg-[#333] transition-colors" title="Adicionar outro número">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <p class="text-[10px] text-gray-500 font-bold uppercase">Endereço Financeiro</p>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <input type="text" id="matRespCep" onblur="buscarCep(this.value, 'matResp')" placeholder="CEP" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white">
+                                    <input type="text" id="matRespLogradouro" placeholder="RUA / AVENIDA" class="col-span-2 w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                    
+                                    <input type="text" id="matRespNumero" placeholder="Nº" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                    <input type="text" id="matRespComplemento" placeholder="COMPLEMENTO (Ex: Apto 101)" class="col-span-2 w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                    
+                                    <input type="text" id="matRespBairro" placeholder="BAIRRO" class="col-span-2 w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                    <input type="text" id="matRespCidade" placeholder="CIDADE" value="CUIABÁ" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                </form>
+                    <div class="space-y-6 pt-8 border-t border-[#222]">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-[#00FFFF] font-bold text-sm uppercase tracking-tighter">
+                                <i class="fas fa-user-graduate mr-2"></i> 2. Dados do Aluno
+                            </h3>
+                            <label class="flex items-center gap-2 cursor-pointer bg-[#1a1a1a] px-3 py-1.5 rounded-full border border-[#333]">
+                                <input type="checkbox" id="matMesmoResponsavel" onchange="copiarDadosResponsavel()" class="rounded border-[#333] bg-[#0f0f0f] text-[#00FFFF]">
+                                <span class="text-[9px] text-gray-400 uppercase font-bold">O Aluno é o mesmo do responsável</span>
+                            </label>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="md:col-span-1">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">CPF Aluno</label>
+                                <input type="text" id="matAlunoCpf" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                            </div>
+                            <div class="md:col-span-3">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Nome do Aluno *</label>
+                                <input type="text" id="matAlunoNome" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF] uppercase">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Data de Nasc. *</label>
+                                <input type="date" id="matAlunoNasc" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Sexo *</label>
+                                <select id="matAlunoSexo" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-white outline-none focus:border-[#00FFFF]">
+                                    <option value="">Nenhum</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase">Gamer Tag (Nickname)</label>
+                                <input type="text" id="matAlunoNick" placeholder="NICKNAME" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-[#00FFFF] font-mono outline-none focus:border-[#00FFFF]">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#0c0c0c] p-4 rounded-2xl border border-[#222]">
+                            <div class="space-y-3">
+                                <p class="text-[10px] text-gray-500 font-bold uppercase">Contato Aluno</p>
+                                <input type="email" id="matAlunoEmail" placeholder="EMAIL" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white">
+                                
+                                <div id="containerTelAluno" class="space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <input type="text" id="matAlunoCelular" placeholder="CELULAR" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white">
+                                        <button type="button" onclick="adicionarCampoTelefone('containerTelAluno', 'Aluno')" class="bg-[#222] text-[#00FFFF] border border-[#333] rounded-xl px-3 py-2 hover:bg-[#333] transition-colors" title="Adicionar outro número">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <p class="text-[10px] text-gray-500 font-bold uppercase">Endereço Aluno</p>
+                                    <button onclick="copiarEnderecoResponsavel()" type="button" class="text-[9px] text-[#00FFFF] hover:underline uppercase font-bold">Copiar Endereço</button>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <input type="text" id="matAlunoCep" onblur="buscarCep(this.value, 'matAluno')" placeholder="CEP" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white">
+                                    <input type="text" id="matAlunoLogradouro" placeholder="RUA / AVENIDA" class="col-span-2 w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                    
+                                    <input type="text" id="matAlunoNumero" placeholder="Nº" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                    <input type="text" id="matAlunoComplemento" placeholder="COMPLEMENTO (Ex: Casa 2)" class="col-span-2 w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                    
+                                    <input type="text" id="matAlunoBairro" placeholder="BAIRRO" class="col-span-2 w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                    <input type="text" id="matAlunoCidade" placeholder="CIDADE" value="CUIABÁ" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2 text-xs text-white uppercase">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="mat-academico" class="sub-tab-content hidden space-y-6">
+    
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fas fa-graduation-cap text-[#00FFFF]"></i>
+                        <h3 class="text-sm font-bold uppercase tracking-widest text-[#00FFFF]">2. Configuração Acadêmica</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <div>
+                            <label class="text-[10px] text-gray-500 font-bold uppercase mb-2 block">Curso de Interesse *</label>
+                            <select id="matCurso" onchange="atualizarInfoCurso(this.value)" 
+                                    class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white outline-none focus:border-[#00FFFF] transition-all">
+                                <option value="">Selecione o Curso...</option>
+                                <option value="GAME_DEV">GAME DEV</option>
+                                <option value="DESIGNER_START">DESIGNER START</option>
+                                <option value="GAME_PRO">GAME PRO</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] text-gray-500 font-bold uppercase mb-2 block">Turma / Horário Disponível *</label>
+                            <select id="matTurma" 
+                                    class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-3 text-white outline-none focus:border-[#00FFFF] transition-all">
+                                <option value="">Selecione o curso primeiro...</option>
+                            </select>
+                            <p class="text-[9px] text-gray-600 mt-1 italic">* A lista de horários muda conforme o curso escolhido.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="p-4 bg-yellow-500/5 border border-yellow-500/20 rounded-2xl">
+                        <p class="text-[10px] text-yellow-500 font-bold uppercase mb-3 flex items-center gap-2">
+                            <i class="fas fa-info-circle"></i> Resumo do Cronograma
+                        </p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                            <div>
+                                <span class="text-gray-600 uppercase text-[9px] font-bold">Carga Horária:</span> 
+                                <span class="text-white block font-bold" id="infoCargaHoraria">120 horas</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600 uppercase text-[9px] font-bold">Duração:</span> 
+                                <span class="text-white block" id="infoDuracao">2h e 30 min</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600 uppercase text-[9px] font-bold">Frequência:</span> 
+                                <span class="text-white block">1x por Semana</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600 uppercase text-[9px] font-bold">Início Previsto:</span> 
+                                <span class="text-[#00FFFF] block font-bold">Imediato</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="mat-negociacao" class="sub-tab-content hidden space-y-4">
+    
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fas fa-hand-holding-usd text-[#00FFFF]"></i>
+                        <h3 class="text-sm font-bold uppercase tracking-widest text-[#00FFFF]">3. Condições de Pagamento</h3>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-4">
+                        
+                        <div class="col-span-12 lg:col-span-5 space-y-4">
+                            <div class="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-4">
+                                <p class="text-[10px] text-gray-500 font-bold uppercase">Taxa de Matrícula (Material)</p>
+                                
+                                <div class="flex items-baseline gap-2 border-b border-white/10 pb-1">
+                                    <span class="text-white text-xl font-bold">R$</span>
+                                    <input type="number" id="matTaxa" value="50" oninput="calcularFinanceiroMatricula()" 
+                                        class="bg-transparent text-3xl font-black text-white outline-none w-full" placeholder="0,00">
+                                </div>
+
+                                <div class="space-y-3">
+                                    <select id="matMetodoTaxa" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-xs text-white outline-none focus:border-[#00FFFF]">
+                                        <option value="PIX">PIX (À Vista)</option>
+                                        <option value="DINHEIRO">DINHEIRO</option>
+                                        <option value="CARTAO_DEBITO">CARTÃO DE DÉBITO</option>
+                                        <option value="CARTAO_CREDITO">CARTÃO DE CRÉDITO</option>
+                                    </select>
+
+                                    <label class="flex items-center gap-3 p-3 bg-black/20 rounded-xl border border-white/5 cursor-pointer hover:bg-black/40 transition-colors">
+                                        <input type="checkbox" id="matTaxaPaga" class="w-4 h-4 accent-[#00FFFF]">
+                                        <span class="text-[10px] text-[#00FFFF] font-black uppercase italic">Confirmar recebimento da taxa</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                                <label class="text-[10px] text-gray-500 font-bold uppercase block mb-2">Vendedor Responsável</label>
+                                <select id="matVendedor" class="w-full bg-[#1a1a1a] border border-[#333] rounded-xl p-2.5 text-xs text-white outline-none focus:border-[#00FFFF]">
+                                    <option value="">Carregando vendedores...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-span-12 lg:col-span-7">
+                            <div class="bg-white/5 border border-[#00FFFF]/20 rounded-2xl p-5 space-y-5 relative overflow-hidden">
+                                <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#00FFFF]/5 blur-3xl rounded-full"></div>
+
+                                <div class="flex justify-between items-center">
+                                    <p class="text-xs text-white font-bold uppercase tracking-wider">Plano de Mensalidades</p>
+                                    <span class="text-[9px] bg-[#00FFFF]/10 text-[#00FFFF] px-2 py-1 rounded-md font-bold">CÁLCULO AUTOMÁTICO</span>
+                                </div>
+
+                                <div>
+                                    <label class="text-[10px] text-gray-400 font-bold uppercase">Valor Total do Curso (Negociado)</label>
+                                    <div class="flex items-baseline gap-2 border-b border-[#00FFFF]/30 pb-1">
+                                        <span class="text-[#00FFFF] text-2xl font-bold">R$</span>
+                                        <input type="number" id="matValorTotalNegociado" value="3000" oninput="calcularFinanceiroMatricula()" 
+                                            class="bg-transparent text-4xl font-black text-[#00FFFF] outline-none w-full" placeholder="0,00">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <label class="text-[9px] text-gray-500 font-bold uppercase">Parcelas</label>
+                                        <select id="matQtdParcelas" onchange="calcularFinanceiroMatricula()" 
+                                                class="w-full bg-[#0a0a0a] border border-[#333] rounded-xl p-2 text-xs text-white outline-none focus:border-[#00FFFF]">
+                                            <option value="1">1x (À vista)</option>
+                                            <option value="2">2x</option>
+                                            <option value="3">3x</option>
+                                            <option value="4">4x</option>
+                                            <option value="5">5x</option>
+                                            <option value="6">6x</option>
+                                            <option value="7">7x</option>
+                                            <option value="8">8x</option>
+                                            <option value="9">9x</option>
+                                            <option value="10">10x</option>
+                                            <option value="11">11x</option>
+                                            <option value="12" selected>12x</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="text-[9px] text-gray-500 font-bold uppercase">Entrada</label>
+                                        <input type="number" id="matEntrada" value="0" oninput="calcularFinanceiroMatricula()" 
+                                            class="w-full bg-[#0a0a0a] border border-[#333] rounded-xl p-2 text-xs text-white outline-none font-bold" placeholder="R$ 0">
+                                    </div>
+                                </div>
+
+                                <div class="bg-black/40 rounded-2xl p-4 flex justify-between items-center border border-white/5">
+                                    <div>
+                                        <p class="text-[9px] text-gray-500 uppercase font-bold">Mensalidade Calculada:</p>
+                                        <p class="text-2xl text-white font-mono font-bold" id="displayValorParcela">R$ 0,00</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-[9px] text-gray-500 uppercase font-bold">Saldo Restante:</p>
+                                        <p class="text-sm text-gray-400 font-mono" id="displaySaldoRestante">R$ 0,00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <i class="fas fa-list-ol text-gray-500 text-xs"></i>
+                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Prévia do Cronograma de Pagamentos</p>
+                        </div>
+                        
+                        <div class="area-tabela-frequencia max-h-[200px] overflow-y-auto border border-white/5 rounded-xl">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="text-[9px] text-gray-500 uppercase border-b border-white/10 bg-white/5">
+                                        <th class="p-3 font-bold">№</th>
+                                        <th class="p-3 font-bold">Vencimento</th>
+                                        <th class="p-3 font-bold">Valor R$</th>
+                                        <th class="p-3 font-bold">Desconto</th>
+                                        <th class="p-3 font-bold">Situação</th>
+                                        <th class="p-3 font-bold">Observação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyPreviewParcelas" class="text-[11px]">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="mat-finalizacao" class="sub-tab-content hidden text-center py-12 space-y-8">
+                    <div class="relative">
+                        <div class="w-24 h-24 bg-[#00FFFF]/10 rounded-full flex items-center justify-center mx-auto animate-pulse">
+                            <i class="fas fa-file-signature text-4xl text-[#00FFFF]"></i>
+                        </div>
+                        <div class="absolute top-0 right-[40%] bg-green-500 w-6 h-6 rounded-full border-4 border-[#111] flex items-center justify-center">
+                            <i class="fas fa-check text-[10px] text-black"></i>
+                        </div>
+                    </div>
+
+                    <div class="max-w-md mx-auto space-y-2">
+                        <h2 class="text-2xl font-black text-white uppercase tracking-tighter">Matrícula Pronta!</h2>
+                        <p class="text-gray-500 text-xs">Os dados foram validados. Agora você pode gerar a documentação para assinatura do responsável.</p>
+                    </div>
+
+                    <div class="max-w-xs mx-auto pt-4">
+                        <button type="button" onclick="gerarContrato()" class="w-full flex flex-col items-center gap-3 p-6 bg-[#1a1a1a] border border-[#333] rounded-3xl hover:border-[#00FFFF] transition-all group shadow-[0_0_15px_rgba(0,255,255,0.1)]">
+                            <i class="fas fa-file-invoice-dollar text-3xl text-[#00FFFF] group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-bold uppercase text-white">Gerar Contrato + Carnês (PDF)</span>
+                        </button>
+                    </div>
+
+                    <div class="pt-8">
+                        <button onclick="finalizarProcessoMatricula()" class="bg-[#00FFFF] text-black font-black px-12 py-4 rounded-2xl shadow-[0_0_20px_rgba(0,255,255,0.2)] hover:scale-105 transition-all uppercase text-xs italic">
+                            Concluir e Salvar no Sistema
+                        </button>
+                    </div>
+                </div>
+                                
+            </div>
+
+            <div class="p-6 border-t border-[#222] bg-[#1a1a1a] flex justify-between items-center">
+                <button id="matBtnPrev" class="hidden text-gray-500 font-bold uppercase text-[10px] hover:text-white transition-all" onclick="navegarMatricula(-1)">
+                    <i class="fas fa-arrow-left mr-2"></i> Anterior
+                </button>
+                <button id="matBtnNext" class="bg-[#00FFFF] text-black fooncluint-black px-10 py-3 rounded-xl hover:shadow-[0_0_15px_rgba(0,255,255,0.3)] transition-all uppercase text-[10px] ml-auto" onclick="navegarMatricula(1)">
+                    Próximo Passo <i class="fas fa-arrow-right ml-2"></i>
+                </button>
             </div>
         </div>
     </div>
 
+
     <!-- Removed inline modalNovoColaborador in favor of the universal modal. -->
     <!-- The buttons on this page call abrirModalNovoColaborador(), which is defined in js/script-funcionario.js and uses the universal modal (#modalUniversal). -->
-
-    <script src="js/script-funcionario.js"></script>
+    <!-- <script src="js/script-funcionario.js"></script> -->
+    <script type="module" src="js/funcionario/main.js"></script>
 </body>
 </html>

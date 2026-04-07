@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Minha Agenda - Javis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/meuscursos.css" />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
+    <style>
+        .fc { background: #1a1a1a; color: #f5f5f5; border-radius: 12px; padding: 20px; border: 1px solid #333; }
+        .fc-theme-standard td, .fc-theme-standard th { border: 1px solid #333; }
+        .fc-daygrid-day-number { color: #00FFFF; font-weight: bold; }
+        .fc-col-header-cell-cushion { color: #aaa; text-transform: uppercase; font-size: 12px; }
+        .fc-event { cursor: pointer; border: none; padding: 2px 5px; }
+        .fc-toolbar-title { color: #f5f5f5 !important; text-transform: capitalize; }
+        .fc-button-primary { background-color: #333 !important; border: 1px solid #444 !important; }
+        .fc-button-primary:hover { background-color: #00FFFF !important; color: #000 !important; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#1a1a1a]">
+    <main class="flex-grow p-4 md:p-8 flex justify-center">
+        <div class="container max-w-5xl neon-container rounded-xl p-6 md:p-8">
+            <header class="mb-8 border-b border-[#333] pb-4">
+                <h1 class="text-3xl font-bold text-[#f5f5f5] flex items-center gap-3">
+                    <i class="fas fa-calendar-day text-[#00FFFF]"></i> Minha Agenda
+                </h1>
+                <p class="text-gray-500 mt-2">Confira os dias e horários das suas aulas de reposição.</p>
+            </header>
+
+            <div id='calendar'></div>
+
+            <div class="mt-8 p-4 bg-[#1a1a1a] border-l-4 border-[#00FFFF] rounded shadow-lg">
+                <p class="text-gray-400 text-sm">
+                    <i class="fas fa-info-circle text-[#00FFFF] mr-2"></i>
+                    Clique em um evento no calendário para ver os detalhes da reposição.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/aluno/config.js"></script>
+    <script src="js/aluno/navbar.js"></script>
+    <script src="js/aluno/agenda.js"></script>
+</body>
+</html>

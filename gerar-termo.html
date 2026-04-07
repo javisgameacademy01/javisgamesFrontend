@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrícula - Javis Games Academy</title>
+<style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; padding: 20px; margin: 0; }
+    .form-container { max-width: 800px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    h2 { color: #1a1a1a; text-align: center; margin-bottom: 25px; }
+    h3 { color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; margin-top: 30px; margin-bottom: 15px; font-size: 18px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .form-grid-3 { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 15px; }
+    .full-width { grid-column: 1 / -1; }
+    .input-group { display: flex; flex-direction: column; }
+    label { font-weight: 600; color: #4b5563; margin-bottom: 6px; font-size: 14px; }
+    input, select { padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 15px; }
+    input:focus, select:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+    button { width: 100%; background-color: #2563eb; color: white; border: none; padding: 16px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+    button:hover { background-color: #1d4ed8; }
+    button:disabled { background-color: #9ca3af; cursor: not-allowed; }
+    
+    /* Tela de Sucesso Escondida por Padrão */
+    #telaSucesso { display: none; text-align: center; padding: 40px 20px; }
+    .icone-sucesso { font-size: 60px; color: #10b981; margin-bottom: 20px; }
+    .btn-baixar { background-color: #10b981; display: inline-block; text-decoration: none; padding: 15px 30px; margin-top: 20px; font-size: 18px; }
+    .btn-baixar:hover { background-color: #059669; }
+
+    @media (max-width: 600px) { .form-grid, .form-grid-3 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="form-container">
+    
+    <div id="areaFormulario">
+        <h2>Ficha de Matrícula - Javis Games</h2>
+        <form id="matriculaForm">
+            
+            <section>
+                <h3>Curso Escolhido</h3>
+                <div class="input-group full-width">
+                    <label>Curso Desejado *</label>
+                    <select name="curso" id="selectCurso" required onchange="atualizarHorarios()">
+                        <option value="">Selecione...</option>
+                        <option value="GAME DEV">GAME DEV (Desenvolvimento de Jogos - 2x na semana)</option>
+                        <option value="PERFORMANCE GAMER">PERFORMANCE GAMER (Projeto Empreendedorismo - 1x na semana)</option>
+                    </select>
+                </div>
+
+                <div class="input-group full-width" id="containerHorario" style="display:none;">
+                    <label>Horário das Aulas *</label>
+                    <select name="horario_aula" id="selectHorario" required>
+                        <option value="">Selecione o curso primeiro...</option>
+                    </select>
+                    <p id="avisoGameDev" style="color: #ef4444; font-size: 12px; margin-top: 5px; display: none; font-weight: bold;">
+                        * Os horários do Game Dev serão definidos com a coordenação no ato da matrícula.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Dados do Aluno</h3>
+                <div class="form-grid">
+                    <div class="input-group full-width"><label>Nome Completo *</label><input type="text" name="aluno_nome" required></div>
+                    <div class="input-group"><label>CPF do Aluno *</label><input type="text" name="aluno_cpf" required></div>
+                    <div class="input-group"><label>Data de Nascimento *</label><input type="date" name="aluno_nascimento" required></div>
+                </div>
+            </section>
+            
+            <section>
+                <h3>Contatos e Endereço</h3>
+                <div class="form-grid">
+                    <div class="input-group"><label>WhatsApp *</label><input type="text" name="whatsapp" required></div>
+                    <div class="input-group"><label>E-mail *</label><input type="email" name="email" required></div>
+                </div>
+                <br>
+                <div class="form-grid-3">
+                    <div class="input-group"><label>CEP *</label><input type="text" name="cep" required></div>
+                    <div class="input-group"><label>Endereço *</label><input type="text" name="endereco" required></div>
+                    <div class="input-group"><label>Bairro *</label><input type="text" name="bairro" required></div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Escolaridade e Responsável</h3>
+                <div class="form-grid-3">
+                    <div class="input-group"><label>Escola *</label><input type="text" name="escola_nome" required></div>
+                    <div class="input-group"><label>Turno *</label>
+                        <select name="escola_turno" required>
+                            <option value="Matutino">Matutino</option><option value="Vespertino">Vespertino</option><option value="Noturno">Noturno</option>
+                        </select>
+                    </div>
+                    <div class="input-group"><label>Série *</label><input type="text" name="escola_serie" required></div>
+                </div>
+                <br>
+                <div class="form-grid">
+                    <div class="input-group full-width"><label>Nome do Responsável (Se menor)</label><input type="text" name="responsavel_nome"></div>
+                    <div class="input-group"><label>CPF Responsável</label><input type="text" name="responsavel_cpf"></div>
+                    <div class="input-group"><label>Parentesco</label><input type="text" name="responsavel_parentesco"></div>
+                </div>
+            </section>
+
+            <button type="submit" id="btnSubmit">Gerar e Salvar Contrato</button>
+        </form>
+    </div>
+
+    <div id="telaSucesso">
+        <div class="icone-sucesso">✅</div>
+        <h2 style="margin-bottom: 10px;">Matrícula Concluída!</h2>
+        <p style="color: #4b5563; font-size: 16px;">Seus dados foram salvos e o contrato oficial foi gerado com sucesso.</p>
+        <a href="#" id="linkDownloadPdf" target="_blank" class="btn-baixar">⬇ Baixar Meu Contrato (PDF)</a>
+        <br><br>
+        <button onclick="location.reload()" style="background-color: transparent; color: #2563eb; border: 1px solid #2563eb; width: auto; padding: 10px 20px;">Nova Matrícula</button>
+    </div>
+
+</div>
+
+<script>
+    // ATENÇÃO: COLOQUE A URL DO SEU BACKEND AQUI
+    const BACKEND_URL = 'https://javisgamesbackend.onrender.com/admin/gerar-contrato-html'; 
+
+    document.getElementById('matriculaForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); 
+        
+        const btn = document.getElementById('btnSubmit');
+        btn.innerText = "Processando e Gerando PDF...";
+        btn.disabled = true;
+
+        const formData = new FormData(this);
+        const dados = Object.fromEntries(formData.entries());
+
+        try {
+            // Chama a API em Python no seu Render
+            const response = await fetch(BACKEND_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dados)
+            });
+
+            if (!response.ok) {
+                // Pega o erro que o Python mandou!
+                const erroServidor = await response.json();
+                throw new Error(erroServidor.detail || 'Erro interno no servidor.');
+            }
+
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                // Sucesso! Esconde o form e mostra o botão de download
+                document.getElementById('areaFormulario').style.display = 'none';
+                document.getElementById('telaSucesso').style.display = 'block';
+                
+                // Coloca o link do PDF que o Python devolveu no botão
+                document.getElementById('linkDownloadPdf').href = result.url_pdf;
+            } else {
+                alert("Erro ao gerar o contrato: " + result.detail);
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Ocorreu um erro. Verifique sua conexão ou contate o suporte.");
+        } finally {
+            btn.innerText = "Gerar e Salvar Contrato";
+            btn.disabled = false;
+        }
+    });
+
+    function atualizarHorarios() {
+        const curso = document.getElementById('selectCurso').value;
+        const container = document.getElementById('containerHorario');
+        const select = document.getElementById('selectHorario');
+        const aviso = document.getElementById('avisoGameDev');
+        
+        // Limpa tudo antes de começar
+        select.innerHTML = '';
+        container.style.display = 'block';
+
+        if (curso === 'PERFORMANCE GAMER') {
+            // Lógica para Performance (1x na semana)
+            aviso.style.display = 'none';
+            select.style.display = 'block';
+            select.required = true;
+
+            const opcoes = [
+                "Segunda - 08:00 às 10:30",
+                "Segunda - 14:00 às 16:30",
+                "Segunda - 16:30 às 19:00",
+                "Terça - 08:00 às 10:30",
+                "Terça - 14:00 às 16:30",
+                "Quarta - 08:00 às 10:30",
+                "Quarta - 14:00 às 16:30",
+                "Quinta - 14:00 às 16:30",
+                "Sexta - 14:00 às 16:20"
+            ];
+            
+            select.innerHTML = '<option value="">Selecione um dia/horário...</option>';
+            opcoes.forEach(opt => {
+                const el = document.createElement('option');
+                el.value = opt;
+                el.textContent = opt;
+                select.appendChild(el);
+            });
+
+        } else if (curso === 'GAME DEV') {
+            // Lógica para Game Dev (A combinar)
+            select.style.display = 'none'; // Esconde o seletor
+            select.required = false;       // Tira a obrigatoriedade
+            aviso.style.display = 'block'; // Mostra o texto de aviso
+            
+            // Define o valor "A combinar" automaticamente para o banco de dados
+            const hiddenOpt = document.createElement('option');
+            hiddenOpt.value = "A combinar com a coordenação";
+            hiddenOpt.selected = true;
+            select.appendChild(hiddenOpt);
+
+        } else {
+            container.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
