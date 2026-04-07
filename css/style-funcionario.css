@@ -1,219 +1,326 @@
-/* style-funcionario.css */
-body { background-color: #0f0f0f; color: #f5f5f5; font-family: 'Inter', sans-serif; }
-.sidebar-item { transition: all 0.2s; border-left: 3px solid transparent; }
-.sidebar-item:hover { background-color: rgba(255, 255, 255, 0.05); }
-.sidebar-item.active { background: linear-gradient(90deg, rgba(0, 255, 255, 0.1) 0%, transparent 100%); border-left: 3px solid #00FFFF; color: #00FFFF; }
-.bloqueado { display: none !important; }
+/* style-funcionario.css - JAVIS GAMES PREMIUM */
 
-/* Custom Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #0f0f0f; }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #00FFFF; }
-
-.fc { color: #e5e5e5; }
-.fc-button-primary { background-color: #222 !important; border-color: #444 !important; }
-.fc-day-today { background-color: rgba(0, 255, 255, 0.05) !important; }
-.fade-in { animation: fadeIn 0.3s ease-in-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.status-select { background-color: #1a1a1a; border: 1px solid #444; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; outline: none; }
-
-/* Ajuste para tabelas no mobile */
-.table-container { overflow-x: auto; }
-
-/* ESTILOS PARA O CHAT (3 ABAS) */
-.chat-tab { cursor: pointer; padding: 10px 5px; text-align: center; border-bottom: 2px solid transparent; color: #666; font-size: 0.75rem; font-weight: bold; flex: 1; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.chat-tab i { font-size: 1rem; }
-.chat-tab.active { border-bottom: 2px solid #00FFFF; color: #00FFFF; background: rgba(0, 255, 255, 0.05); }
-.chat-tab:hover { color: #ccc; }
-
-/* Ajustes de Responsividade Extra */
-
-/* Garante que tabelas longas não quebrem o layout e permitam scroll lateral */
-.overflow-x-auto {
-    -webkit-overflow-scrolling: touch;
-    max-width: 100%;
+:root {
+    --bg-dark: #0f0f0f;
+    --card-bg: #161616;
+    --accent: #00FFFF;
+    --border: #222;
+    --text-dim: #888;
 }
 
-/* Correção de Responsividade para o Chat */
-@media (max-width: 768px) {
-    /* Ajusta o container principal do chat para não estourar a tela */
-    #atendimento .flex-col.md\:flex-row {
-        height: calc(100vh - 180px) !important; /* Define uma altura fixa para caber na tela */
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Define que a lista de contatos ocupe 40% da área disponível */
-    #atendimento .w-full.md\:w-1\/3 {
-        height: 45% !important;
-        flex-shrink: 0;
-    }
-
-    /* Define que a área de mensagens ocupe o restante */
-    #atendimento .w-full.md\:w-2\/3 {
-        height: 55% !important;
-        margin-top: 10px;
-    }
-
-    /* Ajusta as abas para não ficarem espremidas */
-    .chat-tab {
-        padding: 6px 2px;
-        font-size: 0.65rem;
-    }
-
-    /* Garante que o aviso de "Selecione uma conversa" não cubra a lista */
-    #aviso-selecao {
-        position: relative;
-        height: 100%;
-        min-height: 200px;
-    }
+body { 
+    background-color: var(--bg-dark); 
+    color: #f5f5f5; 
+    font-family: 'Inter', sans-serif; 
+    margin: 0; 
+    height: 100dvh !important; 
+    overflow: hidden !important; 
 }
 
-/* Scroll lateral suave em tabelas mobile */
-.overflow-x-auto {
-    display: block;
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+/* ============================================================
+   ESTRUTURA DE GRIDS DO DASHBOARD
+   ============================================================ */
+
+.dashboard-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
 }
 
-/* Ajuste de padding para economizar espaço em telas pequenas */
-@media (max-width: 640px) {
-    table th, table td {
-        padding: 8px 4px !important;
-        font-size: 0.7rem !important;
-    }
-}
-
-/* Ajustes responsivos específicos para Conteúdo Didático */
-@media (max-width: 768px) {
-    /* Quando a biblioteca estiver visível no mobile ela deve rolar e não ultrapassar a viewport */
-    #bibliotecaContainer {
-        position: relative;
-        max-height: 40vh !important;
-        overflow-y: auto;
-        display: block !important; /* o toggle JS controla show/hide */
-    }
-
-    /* Garante que o visualizador ocupe o restante da tela e seja rolável */
-    #visualizadorContainer {
-        min-height: calc(100vh - 140px);
-        height: auto;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Ajuste para o iframe no mobile para não quebrar layout */
-    #frame-aula-prof {
-        min-height: calc(100vh - 220px);
-        height: auto;
-        max-width: 100%;
-    }
-
-    /* Placeholder deve ficar estático (não absoluto) quando biblioteca aparece acima */
-    #placeholder-aula {
-        position: relative;
-        z-index: 1;
-        padding: 2rem 1rem;
-    }
-}
-
-
-/* No seu arquivo style-funcionario.css */
-#turmas .overflow-x-auto {
-    max-width: 100%;
-    display: block;
-}
-
-/* Garante que o container de abas não quebre o layout flex */
-.tab-content {
-    width: 100%;
-}
-
-/* Override: forçar largura 100% em elementos que usam Tailwind classes
-   "w-full lg:w-2/3" (evita que em telas grandes a classe lg:w-2/3 reduza a largura).
-   Usamos !important para garantir prioridade sobre as classes utilitárias do Tailwind.
-*/
-.w-full.lg\:w-2\/3 {
-    width: 100% !important;
-    max-width: 100% !important;
-}
-
-/* --- ESTILOS DO CONTEÚDO DIDÁTICO (AULAS) --- */
-
-/* Botão de Resumo (Cabeçalho do Módulo) */
-.summary-btn {
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    padding: 0.75rem; /* Equivalente a p-3 */
-    border-radius: 0.25rem; /* rounded */
-    cursor: pointer; 
-    background-color: #1a1a1a; 
-    transition: background-color 0.2s ease;
-    width: 100%;
-}
-
-.summary-btn:hover {
-    background-color: #333;
-}
-
-/* Ícone de Seta (Rotação) */
-.arrow-icon {
-    font-size: 0.75rem; /* text-xs */
-    transition: transform 0.2s ease;
-    color: #6b7280; /* text-gray-500 */
-}
-
-/* Roda a seta quando o details está aberto */
-details[open] .summary-btn .arrow-icon {
-    transform: rotate(180deg);
-    color: #00FFFF; /* Fica ciano quando aberto */
-}
-
-/* Lista de Aulas (Container Interno) */
-.aula-list {
-    padding-left: 1rem; 
-    margin-top: 0.5rem; 
-    border-left: 1px solid #333;
-    margin-left: 0.5rem; 
+.stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    justify-content: center;
+    transition: transform 0.2s, border-color 0.2s;
 }
 
-/* Botão Individual da Aula */
-.btn-aula {
+.stat-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+.dashboard-main-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+}
+
+.card-col-large { grid-column: span 8; }
+.card-col-small { grid-column: span 4; }
+
+@media (max-width: 1200px) {
+    .card-col-large, .card-col-small { grid-column: span 12; }
+}
+
+/* ============================================================
+   COMPONENTES INTERNOS
+   ============================================================ */
+
+.glass-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid #222;
+    padding-bottom: 0.75rem;
+}
+
+.list-item-clean {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #1a1a1a;
+}
+.list-item-clean:last-child { border: none; }
+
+.truncate-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.area-tabela-frequencia {
     width: 100%;
-    text-align: left;
-    font-size: 0.75rem; /* text-xs */
-    padding: 0.5rem; 
-    color: #9ca3af; /* text-gray-400 */
-    border-radius: 0.25rem; 
-    background: transparent;
-    border: none;
+    overflow-x: auto !important;
+    border-radius: 12px;
+    background: #0c0c0c;
+    border: 1px solid #1a1a1a;
+}
+
+/* ============================================================
+   SCROLLBARS E OUTROS
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+#mainContent {
+    flex: 1;
+    overflow-y: auto !important;
+    padding: 2rem;
+    background-color: var(--bg-dark);
+}
+
+#calendarAniversario .fc-event {
+    border-radius: 4px !important;
+    padding: 2px 5px !important;
+    font-size: 0.75rem !important;
+    border: none !important;
     cursor: pointer;
-    transition: all 0.2s ease;
 }
 
-.btn-aula:hover {
-    color: #00FFFF;
+#calendarAniversario .fc-daygrid-event-dot {
+    border-color: #00FFFF !important;
+}
+
+/* ============================================================
+   PADRONIZAÇÃO DISCRETA DA SIDEBAR
+   ============================================================ */
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    margin: 2px 8px;
+    border-radius: 8px;
+    color: #9ca3af; 
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+    text-decoration: none !important;
+}
+
+.sidebar-item i {
+    width: 24px;
+    margin-right: 12px;
+    font-size: 16px;
+    text-align: center;
+    text-shadow: none !important; 
+}
+
+.sidebar-item:hover {
     background-color: rgba(255, 255, 255, 0.05);
-    padding-left: 0.75rem; /* Pequeno efeito de movimento para a direita */
+    color: #ffffff;
 }
 
-/* Scrollbar Personalizada para a lista (Opcional, caso não tenha no global) */
-.custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
+.sidebar-item:hover i {
+    transform: none !important; 
 }
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: #111;
+
+.sidebar-item.active {
+    background-color: rgba(0, 255, 255, 0.08);
+    color: #00FFFF !important;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #333;
-    border-radius: 3px;
+
+.sidebar-item.active i {
+    color: #00FFFF;
+    text-shadow: none !important;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #555;
+
+.nav-section-title {
+    padding: 20px 24px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #4b5563;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Cursor de mãozinha nos eventos do calendário de Reposições e Aniversários */
+.fc-event {
+    cursor: pointer !important;
+}
+
+/* ============================================================
+   RESPONSIVIDADE PARA TELAS BAIXAS (LAPTOPS / MACBOOKS)
+   ============================================================ */
+
+@media (max-height: 850px) {
+    /* 1. Permite que o modal ocupe quase toda a altura e centraliza melhor */
+    #modalMatricula > div {
+        max-height: 96vh !important;
+        margin-top: 2vh !important;
+        margin-bottom: 2vh !important;
+    }
+
+    /* 2. Reduz o preenchimento geral do modal de 24px para 12px */
+    #modalMatricula .p-6 {
+        padding: 0.75rem 1.25rem !important;
+    }
+
+    /* 3. Compacta as abas de navegação (1, 2, 3, 4) */
+    .sub-tab-btn {
+        padding-top: 0.4rem !important;
+        padding-bottom: 0.4rem !important;
+        font-size: 11px !important;
+    }
+
+    /* 4. Reduz o espaçamento gigante entre as seções (Identificação / Endereço) */
+    /* Isso corrige o space-y-12 do Tailwind que está separando muito os blocos */
+    .sub-tab-content.space-y-12, 
+    #mat-identificacao.space-y-12 {
+        margin-top: 0.5rem !important;
+    }
+    
+    .sub-tab-content.space-y-12 > * + *,
+    #mat-identificacao.space-y-12 > * + * {
+        margin-top: 1.25rem !important;
+    }
+
+    /* 5. Compacta os inputs para ganhar área útil */
+    #modalMatricula label {
+        margin-bottom: 2px !important;
+        font-size: 9px !important;
+    }
+
+    #modalMatricula input, 
+    #modalMatricula select {
+        padding: 0.5rem 0.75rem !important; /* Campos mais finos */
+        height: 34px !important; /* Força uma altura menor */
+    }
+
+    /* 6. Ajusta o rodapé fixo (Botão Próximo Passo) */
+    #modalMatricula .bg-\[\#1a1a1a\].p-6.flex.justify-end {
+        padding: 0.75rem 1.25rem !important;
+    }
+
+    #matBtnNext {
+        padding: 0.5rem 1.5rem !important;
+        font-size: 12px !important;
+    }
+
+    /* 7. Diminui o gap entre as colunas dos inputs */
+    .grid {
+        gap: 0.5rem !important;
+    }
+}
+
+/* ============================================================
+   AJUSTE DE ALTURA DO CABEÇALHO (SUBIR O TEXTO)
+   ============================================================ */
+
+/* 1. Sobe o título principal e reduz o espaço da linha preta */
+#modalMatricula .card-header {
+    margin-bottom: 0.5rem !important; /* Estava 1.25rem */
+    padding-bottom: 0.5rem !important; /* Estava 0.75rem */
+    padding-top: 0 !important; /* Remove espaço extra no topo */
+}
+
+/* 2. Sobe as abas de navegação (1. Identificação, 2. Acadêmico...) */
+#modalMatricula nav.flex.border-b {
+    margin-top: -0.5rem !important; /* Puxa as abas para cima */
+}
+
+/* 3. Ajusta o título específico "FLUXO DE MATRÍCULA" */
+#modalMatricula h2.text-2xl {
+    font-size: 1.25rem !important; /* Diminui um pouco a fonte se necessário */
+    line-height: 1 !important;
+}
+
+/* 4. Reduz a distância entre o topo do modal e o título */
+#modalMatricula .glass-card {
+    padding-top: 1rem !important; /* Estava 1.5rem */
+}
+
+/* 5. Ajusta o botão de fechar (X) para não ficar desalinhado ao subir o texto */
+#modalMatricula button[onclick*="fecharModalMatricula"] {
+    top: 1rem !important;
+}
+
+/* ============================================================
+   FIXAÇÃO DO TOPO DO MODAL (EVITAR EFEITO MOLA)
+   ============================================================ */
+
+/* 1. Alinha o container do modal ao topo, não ao centro */
+#modalMatricula {
+    align-items: flex-start !important; /* Força o início no topo */
+    padding-top: 2vh !important;       /* Mantém um pequeno respiro no topo */
+    overflow-y: auto !important;       /* Garante que o scroll funcione no fundo */
+}
+
+/* 2. Garante que o card interno não tente se centralizar sozinho */
+#modalMatricula > div {
+    margin-top: 0 !important;
+    margin-bottom: 2vh !important;
+    /* Define que ele cresce a partir do topo */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 3. Ajuste para o scroll interno não quebrar o layout */
+#modalMatricula .glass-card {
+    height: auto !important;
+    max-height: none !important; /* Deixa o conteúdo ditar a altura */
+}
+
+/* --- CORREÇÃO DO SELECT BRANCO NO MODAL --- */
+#modalMatricula select {
+    background-color: #1a1a1a !important; /* Fundo escuro igual aos inputs */
+    color: #ffffff !important;           /* Texto branco */
+    border: 1px solid #333 !important;   /* Borda discreta */
+    appearance: none;                    /* Remove estilos nativos do Windows/Mac */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2300FFFF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem !important;
+}
+
+/* Garante que as opções dentro do select também fiquem escuras */
+#modalMatricula select option {
+    background-color: #1a1a1a;
+    color: #ffffff;
 }

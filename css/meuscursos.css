@@ -195,3 +195,44 @@ body {
         display: none;
     }
 }
+/* --- Ajustes para o Conteúdo do Canva e Modais --- */
+
+/* Resolve o erro de seletor do Tailwind e ID numérico */
+#iframeContainer .bg-\[\#111\], 
+#iframeContainer [id="111"] {
+    background-image: radial-gradient(circle, #1a1a1a 0%, #080808 100%) !important;
+}
+
+/* Ajuste para o container do Canva no Modal */
+#iframeContainer .canva-wrapper {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+    border: 1px solid #333;
+}
+
+/* Garante que o modal ocupe bem o espaço */
+#replitModal .w-full {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Bordas Neon para o design do Canva */
+#iframeContainer iframe {
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    transition: all 0.5s ease;
+}
+
+#iframeContainer iframe:hover {
+    border: 1px solid var(--neon-cyan);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+/* Ajuste de scroll para conteúdos longos em HTML */
+.prose {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+#iframeContainer iframe {
+    display: block !important;
+    visibility: visible !important;
+    min-height: 400px;
+}
