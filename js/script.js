@@ -1,13 +1,19 @@
-// Configurações Globais
-// Verifica se o Supabase foi carregado antes de inicializar
-const supabaseClient = typeof supabase !== 'undefined' ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+// 1. Configurações Globais - Importação correta do módulo
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 
-// Função Global para abrir Modal (precisa ser window. para o onclick do HTML funcionar)
+// 2. Inicialização do Supabase
+// Corrigido: usando SUPABASE_ANON_KEY (o mesmo nome que foi importado)
+const supabaseClient = typeof supabase !== 'undefined' 
+    ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) 
+    : null;
+
+// 3. Função Global para abrir Modal 
+// Exposta ao window para funcionar com o onclick="handleModalOpen(...)" do HTML
 window.handleModalOpen = function(event, url) {
     event.preventDefault();
     const modalContainer = document.getElementById('studentPortalModal');
     
-    console.log("Tentando abrir modal:", url);
+    console.log("🚀 Tentando abrir modal:", url);
 
     fetch(url)
         .then(response => {
@@ -29,15 +35,17 @@ window.handleModalOpen = function(event, url) {
             
             setupRecuperarEvent();
         })
-        .catch(error => console.error('Erro ao carregar modal:', error));
+        .catch(error => console.error('❌ Erro ao carregar modal:', error));
 };
+
+// --- FUNÇÕES AUXILIARES ---
 
 function setupCloseEvents(modalContainer) {
     const closeBtn = modalContainer.querySelector('.close-btn');
     if (closeBtn) closeBtn.addEventListener('click', () => modalContainer.style.display = 'none');
 }
 
-// --- LÓGICA DE INICIALIZAÇÃO ---
+// --- LÓGICA DE INICIALIZAÇÃO DE UI ---
 document.addEventListener('DOMContentLoaded', function() {
     
     // 1. Botão Voltar ao Topo
@@ -71,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// --- FUNÇÕES DE LOGIN ---
+// --- SISTEMA DE LOGIN ---
 
 // A. LOGIN ALUNO
 function setupLoginAluno() {
@@ -87,7 +95,7 @@ function setupLoginAluno() {
                 const email = document.getElementById('email-aluno').value;
                 const password = document.getElementById('senha-aluno').value;
                 
-                const response = await fetch('https://javisgames.onrender.com/login', {
+                const response = await fetch('https://javisgamesbackend.onrender.com/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -96,6 +104,7 @@ function setupLoginAluno() {
                 if (!response.ok) throw new Error('Email ou senha inválidos');
                 const data = await response.json();
 
+                // Padronização do Token
                 localStorage.removeItem('access_token');
                 localStorage.setItem('access_token', data.token);
                 window.location.href = 'CursosIndex.html';
@@ -111,12 +120,10 @@ function setupLoginAluno() {
 // B. LOGIN FUNCIONÁRIO
 function setupLoginFuncionario() {
     const formLogin = document.getElementById('form-login-func');
-    
-    if (!formLogin) return; // Evita erro se o modal não carregou direito
+    if (!formLogin) return;
 
     formLogin.addEventListener('submit', async (e) => {
         e.preventDefault(); 
-        
         const btnSubmit = document.getElementById('btn-login-func');
         const originalText = btnSubmit.innerText;
         btnSubmit.innerText = 'Verificando...'; btnSubmit.disabled = true;
@@ -125,16 +132,16 @@ function setupLoginFuncionario() {
             const email = document.getElementById('email-func').value;
             const password = document.getElementById('senha-func').value;
 
-            const response = await fetch('https://javisgames.onrender.com/login', {
+            const response = await fetch('https://javisgamesbackend.onrender.com/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
             });
 
             if (!response.ok) throw new Error('Credenciais inválidas.');
-
             const data = await response.json();
             
+            // Padronização do Token (Mesma chave usada no Aluno e Dashboard)
             localStorage.removeItem('access_token');
             localStorage.setItem('access_token', data.token);
             
